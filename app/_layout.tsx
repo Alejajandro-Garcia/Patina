@@ -1,24 +1,26 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
-
-import { useColorScheme } from '@/hooks/use-color-scheme';
-
-export const unstable_settings = {
-  anchor: '(tabs)',
-};
+import {
+  Inter_400Regular,
+  Inter_600SemiBold,
+  Inter_700Bold,
+} from "@expo-google-fonts/inter";
+import { useFonts } from "expo-font";
+import { Stack } from "expo-router";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
+  const [fontsLoaded] = useFonts({
+    Inter_400Regular,
+    Inter_600SemiBold,
+    Inter_700Bold,
+  });
+
+  if (!fontsLoaded) {
+    return null;
+  }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+    <SafeAreaProvider>
+      <Stack screenOptions={{ headerShown: false }} />
+    </SafeAreaProvider>
   );
 }
