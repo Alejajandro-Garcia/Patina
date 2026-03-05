@@ -4,25 +4,28 @@ import { PatinaPage } from "@/components/patina-page";
 import { SearchBar } from "@/components/searchbar";
 import { DUMMY_MEASUREMENTS } from "@/test/mock-measurements";
 import { Measurements } from "@/types/measurements";
-import { ScrollView, View } from "react-native";
+import { useRouter } from "expo-router";
+import { ScrollView, StyleSheet, View } from "react-native";
 
 export default function Index() {
+  const navigation = useRouter();
+
   return (
     <PatinaPage>
-      <View style={{ paddingHorizontal: 24, flex: 1 }}>
+      <View style={styles.container}>
         <SearchBar />
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "flex-end",
-            marginTop: 12,
-          }}
-        >
+
+        <View style={styles.actionsRow}>
           <ActionButton title="Select" iconName="scan" />
-          <ActionButton title="Add" iconName="add-circle" />
+          <ActionButton
+            title="Add"
+            iconName="add-circle"
+            callbackFunction={() => navigation.push("/measurement/new")}
+          />
         </View>
+
         <ScrollView
-          style={{ marginTop: 12, flex: 1 }}
+          style={styles.scrollContainer}
           showsVerticalScrollIndicator={false}
         >
           {DUMMY_MEASUREMENTS.map((value: Measurements) => {
@@ -41,3 +44,19 @@ export default function Index() {
     </PatinaPage>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    paddingHorizontal: 24,
+    flex: 1,
+  },
+  actionsRow: {
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    marginTop: 12,
+  },
+  scrollContainer: {
+    marginTop: 12,
+    flex: 1,
+  },
+});
