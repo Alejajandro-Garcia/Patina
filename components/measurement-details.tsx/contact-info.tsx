@@ -11,7 +11,7 @@ export const ContactInfo = ({}) => {
     date: "12/12/2026",
   } as const;
   return (
-    <EditableCard>
+    <EditableCard title={"Contact Info"}>
       <View style={styles.details}>
         <Text style={styles.detail}>Name: {contactInfo.name}</Text>
         <Text style={styles.detail}>Address: {contactInfo.address}</Text>

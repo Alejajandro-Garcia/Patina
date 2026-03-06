@@ -4,8 +4,9 @@ import { Ionicons } from "@expo/vector-icons";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 interface EditableCardProps {
   children: React.ReactNode;
+  title: string;
 }
-export const EditableCard = ({ children }: EditableCardProps) => {
+export const EditableCard = ({ children, title }: EditableCardProps) => {
   return (
     <Pressable
       style={({ pressed }) => [styles.card, { opacity: pressed ? 0.5 : 1 }]}
@@ -17,7 +18,7 @@ export const EditableCard = ({ children }: EditableCardProps) => {
           justifyContent: "space-between",
         }}
       >
-        <Text style={styles.title}>Contact Info</Text>
+        <Text style={styles.title}>{title}</Text>
         <Ionicons name="pencil" size={24} />
       </View>
       {children}
