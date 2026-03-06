@@ -1,5 +1,5 @@
 import {
-  Inter_400Regular,
+  Inter_300Light,
   Inter_600SemiBold,
   Inter_700Bold,
 } from "@expo-google-fonts/inter";
@@ -9,7 +9,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({
-    Inter_400Regular,
+    Inter_300Light,
     Inter_600SemiBold,
     Inter_700Bold,
   });

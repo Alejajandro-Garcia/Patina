@@ -25,19 +25,22 @@ export const MeasurementCard = () => {
             <Text style={{ fontFamily: fonts.semiBold, fontSize: 16 }}>
               Area {item}
             </Text>
-            <Text style={{ fontFamily: fonts.semiBold, fontSize: 16 }}>
+            <Text style={{ fontFamily: fonts.regular, fontSize: 16 }}>
               {Math.random() > 0.5
                 ? `${Math.floor(Math.random() * 10)}' x`
                 : ""}
               {Math.round(Math.random() * 1000) / 100}' x
-              {Math.round(Math.random() * 1000) / 100}' sqft
+              {Math.round(Math.random() * 1000) / 100}'
             </Text>
             <Ionicons name="remove-circle" size={20} />
           </View>
         ))}
       </ScrollView>
       <View style={styles.footer}>
-        <Text style={styles.important}>Total: 100 sq ft</Text>
+        <Text style={styles.important}>Total: </Text>
+        <Text style={[styles.important, { fontSize: 28 }]}>
+          {Math.round(Math.random() * 100000) / 100} ft²
+        </Text>
         <ActionButton title="Edit" iconName="pencil" />
       </View>
     </View>

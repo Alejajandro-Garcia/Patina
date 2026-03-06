@@ -12,23 +12,32 @@ export const ContactInfo = ({}) => {
   } as const;
   return (
     <EditableCard title={"Contact Info"}>
-      <View style={styles.details}>
-        <Text style={styles.detail}>Name: {contactInfo.name}</Text>
-        <Text style={styles.detail}>Address: {contactInfo.address}</Text>
-        <Text style={styles.detail}>Email: {contactInfo.email}</Text>
-        <Text style={styles.detail}>Phone: {contactInfo.phone}</Text>
-        <Text style={styles.detail}>Date: {contactInfo.date}</Text>
+      <View>
+        <Text style={{ fontFamily: fonts.regular }}>
+          <Text style={{ fontFamily: fonts.bold }}>Name:</Text>{" "}
+          {contactInfo.name}
+        </Text>
+        <Text style={{ fontFamily: fonts.regular }}>
+          <Text style={{ fontFamily: fonts.bold }}>Address:</Text>{" "}
+          {contactInfo.address}
+        </Text>
+        <Text style={{ fontFamily: fonts.regular }}>
+          <Text style={{ fontFamily: fonts.bold }}>Email:</Text>{" "}
+          {contactInfo.email}
+        </Text>
+        <Text style={{ fontFamily: fonts.regular }}>
+          <Text style={{ fontFamily: fonts.bold }}>Phone:</Text>{" "}
+          {contactInfo.phone}
+        </Text>
+        <Text style={{ fontFamily: fonts.regular }}>
+          <Text style={{ fontFamily: fonts.bold }}>Date:</Text>{" "}
+          {contactInfo.date}
+        </Text>
       </View>
     </EditableCard>
   );
 };
 
 const styles = StyleSheet.create({
-  details: {
-    gap: 4,
-  },
-  detail: {
-    fontFamily: fonts.regular,
-    fontSize: 14,
-  },
+  detail: {},
 });
