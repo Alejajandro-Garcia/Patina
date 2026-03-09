@@ -1,50 +1,45 @@
-# Welcome to your Expo app 👋
+# Flooring/Construction Measuring Application!
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+## Background
 
-## Get started
+This is a side project in between jobs I started working on to help with my pops measure out areas during estimates. Usually, he would write all areas, contact info, and additional notes relating to the services and product info needed in a grid-like sheet of paper! In this case, I usually had to calculate the total square footage along with then putting this in the notes app. The drawback being, I would have double and sometimes triple check my calculations, since we price products per squarefoot and in amount of cartons, every squarefoot counts as to not rip off the customers. I thought it would be nice to have an app that will have all measurements made, calculate based on the unit of measurement (freedom units 🦅), save contact info, and save notes. This is an offline-first utility, all online aspects will only be for backing up data and syncing with other employees, more info on this in the features section.
 
-1. Install dependencies
+## Features
 
-   ```bash
-   npm install
-   ```
+### Store measurements and sync across devices
 
-2. Start the app
+This will store all measurements as an offline-only tool, and will only save/sync if the device being used is online. Users will also not need to create an account as this should be a basic tool to be utilized right from the box, no sign-ups needed! However, if you do intend to switch devices or use multiple, i.e. company wide measurements, a sign-up would be required in order to sync with the DB and authenticate. Also multiple employees can create measurements in which there's a centralized view for all of them to be displayed and calculated.
 
-   ```bash
-   npx expo start
-   ```
+### Streamlined calculation of areas and unit conversion
 
-In the output, you'll find options to open the app in a
+Besides the simple calculation of multiplying length and width, you can also mark the calculation of stairs (i.e. the calculation of multiple steps of the same dimensions) and mark an area to be calculated in lineal units (perimeter ft/m). Also easily convert between imperial and metric based on the user preferences made. If you want to edit an area, you can by clicking and modifying it, or even deleting it by negating it from the table. All calculations are easily made for you and add a percentage extra, which can also be configured in settings).
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+### View of contact info and additional notes
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+Basic view of providing showing all contact info and the additional notes needed for a measurement which is also displayed with areas and the complete calculation of it.
 
-## Get a fresh project
+### Manage company measurements for everybody in the company to see
 
-When you're ready, run:
+You can view all measurements for all employees across the company. This requires sign-up, but be able to add and remove employees from a company and sync their measurements so you can easily register their measurements for quotes and estimates. Along with obviously filtering based only on specific employees and measurement names.
 
-```bash
-npm run reset-project
-```
+## Roadmap and wishlist
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+### Save photos of measurement area
 
-## Learn more
+For every area of a measurement, you can have a photo stored for each area optionally so you can have a clear view of what was measured
 
-To learn more about developing your project with Expo, look at the following resources:
+### Send emails directly which are quotes of the measurements made and services
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+We utilize quickbooks so it would be nice to have each measurement to be associated with a list of products and services as rates for the square footage calculated along with other charges and fees to send an accurate estimate after measurements were made to the client
 
-## Join the community
+### Autogenerate blueprints or layouts of the measurement
 
-Join our community of developers creating universal apps.
+Create a layout of the measurements autogenerated by the areas made, via a simplified ui in which rooms and measurements are nodes in a graph.
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+### Scan a room and automatically generate the measurements
+
+Autogenerate measurements based on simply scanning a room and getting its dimensions via the API that apple might give. I found that there are studies on this via guassian splats and structure from motion? Something similar to what I've seen in COLMAP. But a large amount of discovery to be made here.
+
+# Contact Me!
+
+## Feel free to contact me @ josealegar19@gmail.com for more questions about the project!
