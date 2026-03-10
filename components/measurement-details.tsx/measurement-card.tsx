@@ -26,13 +26,11 @@ export const MeasurementCard = () => {
               Area {item}
             </Text>
             <Text style={{ fontFamily: fonts.regular, fontSize: 16 }}>
-              {Math.random() > 0.5
-                ? `${Math.floor(Math.random() * 10)}' x`
-                : ""}
-              {Math.round(Math.random() * 1000) / 100}' x
+              {Math.random() > 0.5 ? `${Math.floor(Math.random() * 10)}'x` : ""}
+              {Math.round(Math.random() * 1000) / 100}'x
               {Math.round(Math.random() * 1000) / 100}'
             </Text>
-            <Ionicons name="remove-circle" size={20} />
+            <Ionicons name="remove-circle" size={24} />
           </View>
         ))}
       </ScrollView>
@@ -41,7 +39,7 @@ export const MeasurementCard = () => {
         <Text style={[styles.important, { fontSize: 28 }]}>
           {Math.round(Math.random() * 100000) / 100} ft²
         </Text>
-        <ActionButton title="Edit" iconName="pencil" />
+        <ActionButton title="Add" iconName="add-circle" />
       </View>
     </View>
   );

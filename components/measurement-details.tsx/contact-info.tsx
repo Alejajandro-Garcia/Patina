@@ -1,6 +1,7 @@
 import { fonts } from "@/theme/fonts";
-import { StyleSheet, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import { EditableCard } from "./editable-card";
+import { ModalContainer } from "./modals/modal-container";
 
 export const ContactInfo = ({}) => {
   const contactInfo = {
@@ -12,32 +13,31 @@ export const ContactInfo = ({}) => {
   } as const;
   return (
     <EditableCard title={"Contact Info"}>
+      <ModalContainer>
+        <Text>HELLO</Text>
+      </ModalContainer>
       <View>
         <Text style={{ fontFamily: fonts.regular }}>
-          <Text style={{ fontFamily: fonts.bold }}>Name:</Text>{" "}
+          <Text style={{ fontFamily: fonts.bold }}>Name:</Text>
           {contactInfo.name}
         </Text>
         <Text style={{ fontFamily: fonts.regular }}>
-          <Text style={{ fontFamily: fonts.bold }}>Address:</Text>{" "}
+          <Text style={{ fontFamily: fonts.bold }}>Address:</Text>
           {contactInfo.address}
         </Text>
         <Text style={{ fontFamily: fonts.regular }}>
-          <Text style={{ fontFamily: fonts.bold }}>Email:</Text>{" "}
+          <Text style={{ fontFamily: fonts.bold }}>Email:</Text>
           {contactInfo.email}
         </Text>
         <Text style={{ fontFamily: fonts.regular }}>
-          <Text style={{ fontFamily: fonts.bold }}>Phone:</Text>{" "}
+          <Text style={{ fontFamily: fonts.bold }}>Phone:</Text>
           {contactInfo.phone}
         </Text>
         <Text style={{ fontFamily: fonts.regular }}>
-          <Text style={{ fontFamily: fonts.bold }}>Date:</Text>{" "}
+          <Text style={{ fontFamily: fonts.bold }}>Date:</Text>
           {contactInfo.date}
         </Text>
       </View>
     </EditableCard>
   );
 };
-
-const styles = StyleSheet.create({
-  detail: {},
-});
