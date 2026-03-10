@@ -1,5 +1,6 @@
+import { colors } from "@/theme/colors";
 import { fonts } from "@/theme/fonts";
-import { Text, View } from "react-native";
+import { Text, TextInput, View } from "react-native";
 import { EditableCard } from "./editable-card";
 import { ModalContainer } from "./modals/modal-container";
 
@@ -14,7 +15,19 @@ export const ContactInfo = ({}) => {
   return (
     <EditableCard title={"Contact Info"}>
       <ModalContainer>
-        <Text>HELLO</Text>
+        <Text style={{ fontFamily: fonts.semiBold }}>HELLO</Text>
+        <View
+          style={{
+            backgroundColor: colors.input,
+            padding: 10,
+            borderRadius: 3,
+          }}
+        >
+          <TextInput
+            placeholder="Search Measurements..."
+            placeholderTextColor={colors.placeholder}
+          />
+        </View>
       </ModalContainer>
       <View>
         <Text style={{ fontFamily: fonts.regular }}>

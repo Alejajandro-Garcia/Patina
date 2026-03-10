@@ -3,7 +3,7 @@ import { colors } from "@/theme/colors";
 import { fonts } from "@/theme/fonts";
 import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
-import { Modal, Pressable, Text, View } from "react-native";
+import { Keyboard, Modal, Pressable, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 interface ModalContainerProps {
@@ -25,13 +25,14 @@ export const ModalContainer = ({ children }: ModalContainerProps) => {
           justifyContent: "center",
         }}
       >
-        <View
+        <Pressable
           style={{
             backgroundColor: colors.foreground,
             marginHorizontal: 20,
             padding: 20,
             minHeight: 100,
           }}
+          onPress={Keyboard.dismiss}
         >
           <View
             style={{
@@ -61,7 +62,7 @@ export const ModalContainer = ({ children }: ModalContainerProps) => {
               callbackFunction={() => setVisible(false)}
             />
           </View>
-        </View>
+        </Pressable>
       </View>
     </Modal>
   );
