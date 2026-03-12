@@ -1,10 +1,12 @@
-import { colors } from "@/theme/colors";
 import { fonts } from "@/theme/fonts";
-import { Text, TextInput, View } from "react-native";
+import { useState } from "react";
+import { Text, View } from "react-native";
+import { LabeledInput } from "../labeled-input";
 import { EditableCard } from "./editable-card";
 import { ModalContainer } from "./modals/modal-container";
 
 export const ContactInfo = ({}) => {
+  const [modalVisible, setModalVisible] = useState(false);
   const contactInfo = {
     name: "Jose Alejandro Garcia Figueroa",
     address: "1234 Main Street, Springfield, IL 62704",
@@ -13,22 +15,23 @@ export const ContactInfo = ({}) => {
     date: "12/12/2026",
   } as const;
   return (
-    <EditableCard title={"Contact Info"}>
-      <ModalContainer>
-        <Text style={{ fontFamily: fonts.semiBold }}>HELLO</Text>
-        <View
-          style={{
-            backgroundColor: colors.input,
-            padding: 10,
-            borderRadius: 3,
-          }}
+    <EditableCard
+      title={"Contact Info"}
+      onPress={() => setModalVisible(true)}
+      modal={
+        <ModalContainer
+          visible={modalVisible}
+          onClose={() => setModalVisible(false)}
+          title="Enter Contact Info"
         >
-          <TextInput
-            placeholder="Search Measurements..."
-            placeholderTextColor={colors.placeholder}
-          />
-        </View>
-      </ModalContainer>
+          <LabeledInput label="Full Name" placeholder="John Doe" />
+          <LabeledInput label="Address" placeholder="123 Main Street" />
+          <LabeledInput label="Email" placeholder="john.doe@example.com" />
+          <LabeledInput label="Phone" placeholder="(123) 456-7890" />
+          <LabeledInput label="Date" placeholder="MM/DD/YYYY" />
+        </ModalContainer>
+      }
+    >
       <View>
         <Text style={{ fontFamily: fonts.regular }}>
           <Text style={{ fontFamily: fonts.bold }}>Name:</Text>

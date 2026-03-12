@@ -4,13 +4,17 @@ import { Ionicons } from "@expo/vector-icons";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 interface EditableCardProps {
   children: React.ReactNode;
+  modal: React.ReactNode;
   title: string;
+  onPress: () => void;
 }
-export const EditableCard = ({ children, title }: EditableCardProps) => {
+export const EditableCard = ({ children, title, modal, onPress }: EditableCardProps) => {
   return (
     <Pressable
+      onPress={onPress}
       style={({ pressed }) => [styles.card, { opacity: pressed ? 0.5 : 1 }]}
     >
+      {modal}
       <View
         style={{
           flexDirection: "row",
