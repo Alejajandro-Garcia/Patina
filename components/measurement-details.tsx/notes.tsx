@@ -1,38 +1,14 @@
 import { fonts } from "@/theme/fonts";
-import { useState } from "react";
+import { useRouter } from "expo-router";
 import { Text } from "react-native";
-import { LabeledInput } from "../labeled-input";
 import { EditableCard } from "./editable-card";
-import { ModalContainer } from "./modals/modal-container";
 
 export const Notes = () => {
-  const [modalVisible, setModalVisible] = useState(false);
+  const router = useRouter();
   return (
     <EditableCard
       title={"Notes"}
-      onPress={() => setModalVisible(true)}
-      modal={
-        <ModalContainer
-          visible={modalVisible}
-          onClose={() => setModalVisible(false)}
-          title="Enter Notes"
-        >
-          <LabeledInput
-            label="Product Info"
-            placeholder="European Collection - Paris Grey 7x8x9 20 mil wear layer"
-          />
-          <LabeledInput label="Toilet Removal and Reset" placeholder="0" />
-          <LabeledInput label="Furniture Removal and Reset" placeholder="0" />
-          <LabeledInput label="Floor Prep" placeholder="0" />
-          <LabeledInput label="Appliances Removal and Reset" placeholder="0" />
-          <LabeledInput label="Pull Up & Disposal" placeholder="0" />
-          <LabeledInput label="Baseboards" placeholder="0" />
-          <LabeledInput
-            label="Moldings"
-            placeholder="99 endcaps, 99 T-moldings, 99 reducers"
-          />
-        </ModalContainer>
-      }
+      onPress={() => router.push("/measurement/new/notes-form")}
     >
       <Text numberOfLines={2} style={{ fontFamily: fonts.regular }}>
         <Text style={{ fontFamily: fonts.bold }}>Product info:</Text>
