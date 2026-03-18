@@ -5,16 +5,26 @@ import { StyleSheet, Text, TextInput, View } from "react-native";
 interface LabeledInputProps {
   label: string;
   placeholder: string;
+  number?: boolean;
+  textArea?: boolean;
 }
 
-export const LabeledInput = ({ label, placeholder }: LabeledInputProps) => {
+export const LabeledInput = ({
+  label,
+  placeholder,
+  number,
+  textArea,
+}: LabeledInputProps) => {
   return (
     <View>
       <Text style={styles.label}>{label}</Text>
       <TextInput
         placeholder={placeholder}
         placeholderTextColor={colors.placeholder}
-        style={styles.inputWrapper}
+        style={[styles.inputWrapper, { minHeight: textArea ? 100 : 20 }]}
+        multiline={textArea}
+        numberOfLines={textArea ? 3 : 1}
+        keyboardType={number ? "numeric" : "default"}
       />
     </View>
   );

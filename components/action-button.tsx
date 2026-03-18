@@ -7,6 +7,7 @@ interface ActionButtonProps {
   iconName: keyof typeof Ionicons.glyphMap;
   height?: number;
   width?: number;
+  disableMargin?: boolean;
   title: string;
   callbackFunction?: () => void;
 }
@@ -15,13 +16,18 @@ export const ActionButton = ({
   iconName,
   height = 40,
   width = 90,
+  disableMargin,
   title,
   callbackFunction,
 }: ActionButtonProps) => {
   return (
     <TouchableOpacity
       onPress={callbackFunction}
-      style={[styles.button, { height, width }]}
+      style={[
+        styles.button,
+        { height, width },
+        { marginLeft: disableMargin ? 0 : 8 },
+      ]}
     >
       <Ionicons name={iconName} size={20} />
       <Text style={styles.text}> {title} </Text>
@@ -36,7 +42,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "row",
-    marginLeft: 8,
   },
   text: {
     fontFamily: fonts.semiBold,

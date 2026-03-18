@@ -1,10 +1,13 @@
 import { colors } from "@/theme/colors";
 import { fonts } from "@/theme/fonts";
 import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { ActionButton } from "../action-button";
 
 export const MeasurementCard = () => {
+  const router = useRouter();
+
   return (
     <View style={styles.container}>
       <Text style={styles.important}>Areas and Measurement</Text>
@@ -39,7 +42,13 @@ export const MeasurementCard = () => {
         <Text style={[styles.important, { fontSize: 28 }]}>
           {Math.round(Math.random() * 100000) / 100} ft²
         </Text>
-        <ActionButton title="Add" iconName="add-circle" />
+        <ActionButton
+          title="Add"
+          iconName="add-circle"
+          callbackFunction={() =>
+            router.push("/measurement/new/measurements-form")
+          }
+        />
       </View>
     </View>
   );
