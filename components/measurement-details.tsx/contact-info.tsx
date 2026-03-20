@@ -19,23 +19,23 @@ export const ContactInfo = ({}) => {
     >
       <View>
         <Text style={{ fontFamily: fonts.regular }}>
-          <Text style={{ fontFamily: fonts.bold }}>Name:</Text>
+          <Text style={{ fontFamily: fonts.bold }}>Name: </Text>
           {contactInfo.name}
         </Text>
         <Text style={{ fontFamily: fonts.regular }}>
-          <Text style={{ fontFamily: fonts.bold }}>Address:</Text>
+          <Text style={{ fontFamily: fonts.bold }}>Address: </Text>
           {contactInfo.address}
         </Text>
         <Text style={{ fontFamily: fonts.regular }}>
-          <Text style={{ fontFamily: fonts.bold }}>Email:</Text>
+          <Text style={{ fontFamily: fonts.bold }}>Email: </Text>
           {contactInfo.email}
         </Text>
         <Text style={{ fontFamily: fonts.regular }}>
-          <Text style={{ fontFamily: fonts.bold }}>Phone:</Text>
+          <Text style={{ fontFamily: fonts.bold }}>Phone: </Text>
           {contactInfo.phone}
         </Text>
         <Text style={{ fontFamily: fonts.regular }}>
-          <Text style={{ fontFamily: fonts.bold }}>Date:</Text>
+          <Text style={{ fontFamily: fonts.bold }}>Date: </Text>
           {contactInfo.date}
         </Text>
       </View>
