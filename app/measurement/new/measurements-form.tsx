@@ -23,7 +23,7 @@ export default function MeasurementsForm() {
   return (
     <PatinaPage>
       <View style={styles.content}>
-        <Pressable onPress={() => Keyboard.dismiss()}>
+        <Pressable style={{ gap: 8 }} onPress={() => Keyboard.dismiss()}>
           <LabeledInput label="Area Name" placeholder="Living Room" />
           <View style={{ flexDirection: "row", gap: 8 }}>
             <View style={{ flex: 1, gap: 8 }}>
@@ -50,7 +50,13 @@ export default function MeasurementsForm() {
               </View>
             </View>
           </View>
-          <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "flex-end",
+              paddingTop: 12,
+            }}
+          >
             <ActionButton
               title="Reset"
               iconName="play-back"
@@ -69,6 +75,7 @@ export default function MeasurementsForm() {
         <FlatList
           data={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
           style={{ backgroundColor: colors.input, height: "30%" }}
+          onScroll={() => Keyboard.dismiss()}
           renderItem={({ item, index }) => (
             <View
               style={{
