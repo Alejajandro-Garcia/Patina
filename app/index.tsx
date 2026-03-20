@@ -5,7 +5,7 @@ import { SearchBar } from "@/components/searchbar";
 import { DUMMY_MEASUREMENTS } from "@/test/mock-measurements";
 import { MeasurementsLandingType } from "@/types/measurements";
 import { useRouter } from "expo-router";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
 
 export default function Index() {
   const navigation = useRouter();
@@ -24,22 +24,20 @@ export default function Index() {
           />
         </View>
 
-        <ScrollView
+        <FlatList
           style={styles.scrollContainer}
           showsVerticalScrollIndicator={false}
-        >
-          {DUMMY_MEASUREMENTS.map((value: MeasurementsLandingType) => {
-            return (
-              <Measurement
-                measurementID={value.measurementID}
-                name={value.name}
-                date={value.date}
-                totalSQFT={value.totalSQFT}
-                key={value.measurementID}
-              />
-            );
-          })}
-        </ScrollView>
+          data={DUMMY_MEASUREMENTS}
+          keyExtractor={(item) => item.measurementID}
+          renderItem={({ item }: { item: MeasurementsLandingType }) => (
+            <Measurement
+              measurementID={item.measurementID}
+              name={item.name}
+              date={item.date}
+              totalSQFT={item.totalSQFT}
+            />
+          )}
+        />
       </View>
     </PatinaPage>
   );
