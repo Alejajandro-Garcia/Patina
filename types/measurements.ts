@@ -1,4 +1,4 @@
-export type Measurements = {
+export type MeasurementsLandingType = {
   measurementID: string;
   name: string;
   totalSQFT: number;

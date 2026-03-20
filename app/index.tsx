@@ -3,7 +3,7 @@ import { Measurement } from "@/components/measurement";
 import { PatinaPage } from "@/components/patina-page";
 import { SearchBar } from "@/components/searchbar";
 import { DUMMY_MEASUREMENTS } from "@/test/mock-measurements";
-import { Measurements } from "@/types/measurements";
+import { MeasurementsLandingType } from "@/types/measurements";
 import { useRouter } from "expo-router";
 import { ScrollView, StyleSheet, View } from "react-native";
 
@@ -28,7 +28,7 @@ export default function Index() {
           style={styles.scrollContainer}
           showsVerticalScrollIndicator={false}
         >
-          {DUMMY_MEASUREMENTS.map((value: Measurements) => {
+          {DUMMY_MEASUREMENTS.map((value: MeasurementsLandingType) => {
             return (
               <Measurement
                 measurementID={value.measurementID}

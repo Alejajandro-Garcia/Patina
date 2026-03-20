@@ -1,10 +1,10 @@
 import { colors } from "@/theme/colors";
 import { fonts } from "@/theme/fonts";
-import { Measurements } from "@/types/measurements";
+import { MeasurementsLandingType } from "@/types/measurements";
 import { Ionicons } from "@expo/vector-icons";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-export const Measurement = (measurement: Measurements) => {
+export const Measurement = (measurement: MeasurementsLandingType) => {
   return (
     <TouchableOpacity style={styles.container}>
       <View

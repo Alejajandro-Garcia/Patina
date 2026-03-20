@@ -1,6 +1,6 @@
-import { Measurements } from "@/types/measurements";
+import { MeasurementsLandingType } from "@/types/measurements";
 
-export const DUMMY_MEASUREMENTS: Measurements[] = [
+export const DUMMY_MEASUREMENTS: MeasurementsLandingType[] = [
   {
     measurementID: "m_001",
     name: "Johnson Kitchen Remodel",
