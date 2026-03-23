@@ -3,24 +3,44 @@ import { DropdownMenu } from "@/components/dropdown-menu";
 import { PatinaPage } from "@/components/patina-page";
 import { colors } from "@/theme/colors";
 import { fonts } from "@/theme/fonts";
+import { useRouter } from "expo-router";
 import { StyleSheet, Text, View } from "react-native";
 
 export default function Settings() {
   const menuItems = ["Imperial (sqft/in)", "Metric (m/cm)"];
+  const router = useRouter();
 
   return (
     <PatinaPage>
       <View style={styles.pageContainer}>
-        <View style={styles.card}>
-          <Text style={styles.title}>Personal Preferences</Text>
+        <View style={[styles.card, { justifyContent: "space-between" }]}>
+          <Text style={styles.title}>Personal preferences</Text>
 
           <View style={styles.row}>
-            <Text style={styles.label}>Unit of Measurement</Text>
+            <Text style={styles.label}>Unit of measurement</Text>
             <DropdownMenu title="Select unit" dropdownItems={menuItems} />
           </View>
 
           <View style={styles.buttonRow}>
             <ActionButton iconName="checkmark-circle" title="Save" />
+          </View>
+        </View>
+        <View style={styles.card}>
+          <Text style={styles.title}>Account and sync</Text>
+          <View
+            style={{
+              gap: 8,
+              flex: 1,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Text style={styles.label}>Sync with cloud</Text>
+            <ActionButton
+              title="Sign In"
+              iconName="log-in"
+              callbackFunction={() => router.push("/signin")}
+            />
           </View>
         </View>
       </View>
@@ -40,7 +60,6 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 10,
     marginTop: 24,
-    justifyContent: "space-between",
   },
   title: {
     fontFamily: fonts.bold,
