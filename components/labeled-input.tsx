@@ -3,7 +3,7 @@ import { fonts } from "@/theme/fonts";
 import { StyleSheet, Text, TextInput, View } from "react-native";
 
 interface LabeledInputProps {
-  label: string;
+  label?: string;
   placeholder: string;
   number?: boolean;
   textArea?: boolean;
@@ -17,7 +17,7 @@ export const LabeledInput = ({
 }: LabeledInputProps) => {
   return (
     <View>
-      <Text style={styles.label}>{label}</Text>
+      {label && <Text style={styles.label}>{label}</Text>}
       <TextInput
         placeholder={placeholder}
         placeholderTextColor={colors.placeholder}

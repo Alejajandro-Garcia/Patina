@@ -32,7 +32,7 @@ export const Header = () => {
       {!router.canGoBack() && (
         <TouchableOpacity
           onPress={(e) => {
-            router.push({ pathname: "/settings" });
+            router.push({ pathname: "/settings/settings" });
           }}
         >
           <Ionicons name="settings" style={{ color: colors.input }} size={40} />

@@ -1,5 +1,6 @@
 import { ActionButton } from "@/components/action-button";
 import { DropdownMenu } from "@/components/dropdown-menu";
+import { LabeledInput } from "@/components/labeled-input";
 import { PatinaPage } from "@/components/patina-page";
 import { colors } from "@/theme/colors";
 import { fonts } from "@/theme/fonts";
@@ -19,6 +20,12 @@ export default function Settings() {
           <View style={styles.row}>
             <Text style={styles.label}>Unit of measurement</Text>
             <DropdownMenu title="Select unit" dropdownItems={menuItems} />
+          </View>
+          <View style={styles.row}>
+            <Text style={styles.label}>Extra percentage</Text>
+            <View style={{ width: 150 }}>
+              <LabeledInput placeholder="10%" number />
+            </View>
           </View>
 
           <View style={styles.buttonRow}>
@@ -69,6 +76,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+    alignContent: "center",
   },
   label: {
     fontFamily: fonts.bold,
