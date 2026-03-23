@@ -2,14 +2,19 @@ import { ActionButton } from "@/components/action-button";
 import { LabeledInput } from "@/components/labeled-input";
 import { colors } from "@/theme/colors";
 import { fonts } from "@/theme/fonts";
-import { Keyboard, Pressable, Text, View } from "react-native";
+import { useRouter } from "expo-router";
+import { useState } from "react";
+import { Keyboard, Pressable, Text } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function SignIn() {
   const insets = useSafeAreaInsets();
+  const [signUp, setSignUp] = useState(false);
+  const router = useRouter();
   return (
-    <View
-      style={{
+    <KeyboardAwareScrollView
+      contentContainerStyle={{
         flex: 1,
         paddingTop: insets.top,
         alignItems: "center",
@@ -23,27 +28,45 @@ export default function SignIn() {
           padding: 20,
           borderRadius: 8,
           width: "80%",
-          height: "60%",
           gap: 12,
         }}
         onPress={() => Keyboard.dismiss()}
       >
-        <Text style={{ fontFamily: fonts.bold, fontSize: 24 }}>Sign In</Text>
+        <Text style={{ fontFamily: fonts.bold, fontSize: 24 }}>
+          {signUp ? "Sign Up" : "Sign In"}
+        </Text>
         <LabeledInput label="Email" placeholder="Enter your email" />
         <LabeledInput label="Password" placeholder="Enter your password" />
+        {signUp && (
+          <LabeledInput
+            label="Re-enter Password"
+            placeholder="Re-enter your password"
+          />
+        )}
         <ActionButton
-          title="Sign In"
-          iconName="log-in"
-          callbackFunction={() => {}}
+          title={signUp ? "Sign Up" : "Sign In"}
+          iconName={signUp ? "person-add" : "log-in"}
+          callbackFunction={() => {
+            router.dismissAll();
+            router.replace("/");
+          }}
           width={"100%"}
           disableMargin
         />
-        <Pressable onPress={() => console.log("hello")}>
-          <Text style={{ fontFamily: fonts.semiBold, color: "white" }}>
-            or create an account
+        <Pressable onPress={() => setSignUp(!signUp)}>
+          <Text
+            style={{
+              fontFamily: fonts.semiBold,
+              color: colors.header,
+              textAlign: "center",
+            }}
+          >
+            {signUp
+              ? "Already have an account? Sign in."
+              : "Don't have an account? Sign up."}
           </Text>
         </Pressable>
       </Pressable>
-    </View>
+    </KeyboardAwareScrollView>
   );
 }
