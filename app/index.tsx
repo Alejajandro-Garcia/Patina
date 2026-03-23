@@ -1,4 +1,3 @@
-import Fuse from "fuse.js";
 import { ActionButton } from "@/components/action-button";
 import { Measurement } from "@/components/measurement";
 import { PatinaPage } from "@/components/patina-page";
@@ -6,6 +5,7 @@ import { SearchBar } from "@/components/searchbar";
 import { DUMMY_MEASUREMENTS } from "@/test/mock-measurements";
 import { MeasurementsLandingType } from "@/types/measurements";
 import { useRouter } from "expo-router";
+import Fuse from "fuse.js";
 import { useMemo, useState } from "react";
 import { FlatList, Keyboard, StyleSheet, View } from "react-native";
 
@@ -21,7 +21,10 @@ export default function Index() {
   const [measurements, setMeasurements] =
     useState<MeasurementsLandingType[]>(DUMMY_MEASUREMENTS);
 
-  const fuse = useMemo(() => new Fuse(measurements, fuseOptions), [measurements]);
+  const fuse = useMemo(
+    () => new Fuse(measurements, fuseOptions),
+    [measurements],
+  );
 
   const data = useMemo(() => {
     if (!searchQuery) return measurements;
