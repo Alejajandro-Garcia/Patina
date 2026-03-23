@@ -5,7 +5,7 @@ import { PatinaPage } from "@/components/patina-page";
 import { colors } from "@/theme/colors";
 import { fonts } from "@/theme/fonts";
 import { useRouter } from "expo-router";
-import { StyleSheet, Text, View } from "react-native";
+import { Keyboard, Pressable, StyleSheet, Text, View } from "react-native";
 
 export default function Settings() {
   const menuItems = ["Imperial (sqft/in)", "Metric (m/cm)"];
@@ -14,7 +14,10 @@ export default function Settings() {
   return (
     <PatinaPage>
       <View style={styles.pageContainer}>
-        <View style={[styles.card, { justifyContent: "space-between" }]}>
+        <Pressable
+          style={[styles.card, { justifyContent: "space-between" }]}
+          onPress={() => Keyboard.dismiss()}
+        >
           <Text style={styles.title}>Personal preferences</Text>
 
           <View style={styles.row}>
@@ -31,7 +34,7 @@ export default function Settings() {
           <View style={styles.buttonRow}>
             <ActionButton iconName="checkmark-circle" title="Save" />
           </View>
-        </View>
+        </Pressable>
         <View style={styles.card}>
           <Text style={styles.title}>Account and sync</Text>
           <View
