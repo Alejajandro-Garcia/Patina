@@ -1,12 +1,17 @@
 import { colors } from "@/theme/colors";
 import { fonts } from "@/theme/fonts";
 import { Ionicons } from "@expo/vector-icons";
-import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import {
+  DimensionValue,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+} from "react-native";
 
 interface ActionButtonProps {
   iconName: keyof typeof Ionicons.glyphMap;
-  height?: number | string;
-  width?: number | string;
+  height?: DimensionValue;
+  width?: DimensionValue;
   disableMargin?: boolean;
   title: string;
   callbackFunction?: () => void;
