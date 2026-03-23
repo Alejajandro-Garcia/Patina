@@ -5,8 +5,8 @@ import { StyleSheet, Text, TouchableOpacity } from "react-native";
 
 interface ActionButtonProps {
   iconName: keyof typeof Ionicons.glyphMap;
-  height?: number;
-  width?: number;
+  height?: number | string;
+  width?: number | string;
   disableMargin?: boolean;
   title: string;
   callbackFunction?: () => void;
