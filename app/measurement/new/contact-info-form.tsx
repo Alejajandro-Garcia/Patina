@@ -2,17 +2,19 @@ import { ActionButton } from "@/components/action-button";
 import { LabeledInput } from "@/components/labeled-input";
 import { PatinaPage } from "@/components/patina-page";
 import { useRouter } from "expo-router";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 
 export default function ContactInfoForm() {
   const router = useRouter();
 
   return (
     <PatinaPage>
-      <ScrollView
+      <KeyboardAwareScrollView
         contentContainerStyle={styles.content}
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
+        bottomOffset={100}
       >
         <LabeledInput label="Full Name" placeholder="John Doe" />
         <LabeledInput label="Address" placeholder="123 Main Street" />
@@ -31,7 +33,7 @@ export default function ContactInfoForm() {
             callbackFunction={() => router.back()}
           />
         </View>
-      </ScrollView>
+      </KeyboardAwareScrollView>
     </PatinaPage>
   );
 }
