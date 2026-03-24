@@ -12,17 +12,19 @@ export const MeasurementCard = () => {
     <View style={styles.container}>
       <Text style={styles.important}>Areas and Measurement</Text>
       <ScrollView
-        contentContainerStyle={{ gap: 12 }}
         showsVerticalScrollIndicator={false}
         style={{ marginTop: 10 }}
       >
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14].map((item) => (
+        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14].map((item, index) => (
           <View
             key={item}
             style={{
+              padding: 5,
               flexDirection: "row",
               justifyContent: "space-between",
               alignItems: "center",
+              backgroundColor:
+                index % 2 === 0 ? colors.input : colors.background,
             }}
           >
             <Text style={{ fontFamily: fonts.semiBold, fontSize: 16 }}>
@@ -70,6 +72,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    paddingTop: 5,
   },
   important: {
     fontFamily: fonts.bold,
