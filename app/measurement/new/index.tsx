@@ -3,6 +3,7 @@ import { ContactInfo } from "@/components/measurement-details.tsx/contact-info";
 import { MeasurementCard } from "@/components/measurement-details.tsx/measurement-card";
 import { Notes } from "@/components/measurement-details.tsx/notes";
 import { PatinaPage } from "@/components/patina-page";
+import { router } from "expo-router";
 import { StyleSheet, View } from "react-native";
 
 export default function MeasurementDetails() {
@@ -18,8 +19,16 @@ export default function MeasurementDetails() {
             justifyContent: "flex-end",
           }}
         >
-          <ActionButton iconName="close-circle" title="Cancel" />
-          <ActionButton iconName="save" title="Save" />
+          <ActionButton
+            iconName="close-circle"
+            title="Cancel"
+            callbackFunction={() => router.back()}
+          />
+          <ActionButton
+            iconName="save"
+            title="Save"
+            callbackFunction={() => router.back()}
+          />
         </View>
       </View>
     </PatinaPage>
