@@ -1,3 +1,4 @@
+import { ActionButton } from "@/components/action-button";
 import { ContactInfo } from "@/components/measurement-details.tsx/contact-info";
 import { MeasurementCard } from "@/components/measurement-details.tsx/measurement-card";
 import { Notes } from "@/components/measurement-details.tsx/notes";
@@ -11,6 +12,15 @@ export default function MeasurementDetails() {
         <ContactInfo />
         <MeasurementCard />
         <Notes />
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "flex-end",
+          }}
+        >
+          <ActionButton iconName="close-circle" title="Cancel" />
+          <ActionButton iconName="save" title="Save" />
+        </View>
       </View>
     </PatinaPage>
   );
