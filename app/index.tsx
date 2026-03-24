@@ -7,7 +7,7 @@ import { MeasurementsLandingType } from "@/types/measurements";
 import { useRouter } from "expo-router";
 import Fuse from "fuse.js";
 import { useMemo, useState } from "react";
-import { FlatList, Keyboard, StyleSheet, View } from "react-native";
+import { FlatList, Keyboard, Pressable, StyleSheet, View } from "react-native";
 
 const fuseOptions = {
   keys: ["name"],
@@ -18,7 +18,7 @@ const fuseOptions = {
 export default function Index() {
   const navigation = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
-  const [measurements, setMeasurements] =
+  const [measurements] =
     useState<MeasurementsLandingType[]>(DUMMY_MEASUREMENTS);
 
   const fuse = useMemo(
@@ -36,14 +36,13 @@ export default function Index() {
       <View style={styles.container}>
         <SearchBar handleSearch={setSearchQuery} />
 
-        <View style={styles.actionsRow}>
-          <ActionButton title="Select" iconName="scan" />
+        <Pressable style={styles.actionsRow} onPress={() => Keyboard.dismiss()}>
           <ActionButton
             title="Add"
             iconName="add-circle"
             callbackFunction={() => navigation.push("/measurement/new")}
           />
-        </View>
+        </Pressable>
 
         <FlatList
           style={styles.scrollContainer}
