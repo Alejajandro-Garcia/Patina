@@ -22,14 +22,14 @@ export const MeasurementCard = () => {
             No measurements yet. Tap to add.
           </Text>
           <ActionButton
-            title="Add notes"
+            title="Add measurements"
             iconName="add-circle"
             callbackFunction={() =>
               router.push("/measurement/new/measurements-form")
             }
             disableMargin
             height={50}
-            width={125}
+            width={180}
           />
         </View>
       ) : (
