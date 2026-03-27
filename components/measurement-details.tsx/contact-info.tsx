@@ -1,5 +1,6 @@
 import { fonts } from "@/theme/fonts";
 import { ContactInfoType } from "@/types/measurementInfo";
+import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { Text, View } from "react-native";
 import { EditableCard } from "./editable-card";
@@ -13,9 +14,18 @@ export const ContactInfo = ({}) => {
       onPress={() => router.push("/measurement/new/contact-info-form")}
     >
       {!contactInfo ? (
-        <Text style={{ fontFamily: fonts.regular, fontStyle: "italic" }}>
-          No contact information provided. Tap to add.
-        </Text>
+        <View
+          style={{
+            paddingTop: 16,
+            alignItems: "center",
+            gap: 4,
+          }}
+        >
+          <Ionicons name="person-circle" size={50} />
+          <Text style={{ fontFamily: fonts.semiBold }}>
+            No contact information provided. Tap to add.
+          </Text>
+        </View>
       ) : (
         <View>
           <Text style={{ fontFamily: fonts.regular }}>
