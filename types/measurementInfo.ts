@@ -1,17 +1,17 @@
 export type MeasurementInfoType = {
   measurementID: string;
   name: string;
-  contactInfo: ContactInfoType;
+  contactInfo: ContactInfoType | null;
   areas: AreaType[];
-  notes: NotesType;
+  notes: NotesType | null;
 };
 
 export type ContactInfoType = {
-  name?: string | null;
+  name: string | null;
   email?: string | null;
   phone?: string | null;
-  address?: string | null;
-  date?: string | null;
+  address: string | null;
+  date: string | null;
 };
 
 export type AreaType = {
