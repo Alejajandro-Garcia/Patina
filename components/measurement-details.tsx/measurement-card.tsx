@@ -1,13 +1,30 @@
 import { colors } from "@/theme/colors";
 import { fonts } from "@/theme/fonts";
+import { AreaType } from "@/types/measurementInfo";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+import { useMemo } from "react";
 import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { ActionButton } from "../action-button";
 
 export const MeasurementCard = () => {
   const router = useRouter();
-  const measurements = [];
+  const measurements: AreaType[] = [
+    { name: "Living Room", length: 12.5, width: 10.75 },
+    { name: "Kitchen", length: 8.25, width: 9.5 },
+    { name: "Bedroom", length: 11.0, width: 10.25, steps: 2 },
+    { name: "Hallway", length: 15.75, width: 3.5 },
+    { name: "Bathroom", length: 6.25, width: 5.75, steps: 1 },
+  ];
+
+  const totalSqFt = useMemo(
+    () =>
+      Math.round(
+        measurements.reduce((sum, area) => sum + area.length * area.width, 0) *
+          100,
+      ) / 100,
+    [measurements],
+  );
 
   return (
     <View style={styles.container}>
@@ -38,38 +55,33 @@ export const MeasurementCard = () => {
             showsVerticalScrollIndicator={false}
             style={{ marginTop: 10 }}
           >
-            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14].map(
-              (item, index) => (
-                <View
-                  key={item}
-                  style={{
-                    padding: 5,
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    backgroundColor:
-                      index % 2 === 0 ? colors.input : colors.background,
-                  }}
-                >
-                  <Text style={{ fontFamily: fonts.semiBold, fontSize: 16 }}>
-                    Area {item}
-                  </Text>
-                  <Text style={{ fontFamily: fonts.regular, fontSize: 16 }}>
-                    {Math.random() > 0.5
-                      ? `${Math.floor(Math.random() * 10)}'x`
-                      : ""}
-                    {Math.round(Math.random() * 1000) / 100}'x
-                    {Math.round(Math.random() * 1000) / 100}'
-                  </Text>
-                  <Ionicons name="remove-circle" size={24} />
-                </View>
-              ),
-            )}
+            {measurements.map((area, index) => (
+              <View
+                key={area.name}
+                style={{
+                  padding: 5,
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  backgroundColor:
+                    index % 2 === 0 ? colors.input : colors.background,
+                }}
+              >
+                <Text style={{ fontFamily: fonts.semiBold, fontSize: 16 }}>
+                  {area.name}
+                </Text>
+                <Text style={{ fontFamily: fonts.regular, fontSize: 16 }}>
+                  {area.length}' x {area.width}'
+                  {area.steps && ` x ${area.steps}`}
+                </Text>
+                <Ionicons name="remove-circle" size={24} />
+              </View>
+            ))}
           </ScrollView>
           <View style={styles.footer}>
             <Text style={styles.important}>Total: </Text>
             <Text style={[styles.important, { fontSize: 28 }]}>
-              {Math.round(Math.random() * 100000) / 100} ft²
+              {totalSqFt} ft²
             </Text>
             <ActionButton
               title="Add"
