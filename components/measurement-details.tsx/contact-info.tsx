@@ -11,7 +11,7 @@ export const ContactInfo = ({}) => {
   return (
     <EditableCard
       title={"Contact Info"}
-      onPress={() => router.push("/measurement/new/contact-info-form")}
+      onPress={() => router.push("/measurement/form-pages/contact-info-form")}
     >
       {!contactInfo ? (
         <View

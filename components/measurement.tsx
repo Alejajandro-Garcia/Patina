@@ -2,11 +2,16 @@ import { colors } from "@/theme/colors";
 import { fonts } from "@/theme/fonts";
 import { MeasurementsLandingType } from "@/types/measurements";
 import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export const Measurement = (measurement: MeasurementsLandingType) => {
+  const router = useRouter();
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity
+      style={styles.container}
+      onPress={() => router.push(`/measurement/${measurement.measurementID}`)}
+    >
       <View
         style={{
           flex: 2,

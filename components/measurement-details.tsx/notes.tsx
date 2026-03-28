@@ -10,8 +10,8 @@ export const Notes = () => {
   const notes = null as NotesType | null;
   return (
     <EditableCard
-      title={"Notes"}
-      onPress={() => router.push("/measurement/new/notes-form")}
+      title={"Notes (optional)"}
+      onPress={() => router.push("/measurement/form-pages/notes-form")}
     >
       {!notes ? (
         <View style={styles.emptyState}>

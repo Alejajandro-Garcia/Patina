@@ -9,13 +9,7 @@ import { ActionButton } from "../action-button";
 
 export const MeasurementCard = () => {
   const router = useRouter();
-  const measurements: AreaType[] = [
-    { name: "Living Room", length: 12.5, width: 10.75 },
-    { name: "Kitchen", length: 8.25, width: 9.5 },
-    { name: "Bedroom", length: 11.0, width: 10.25, steps: 2 },
-    { name: "Hallway", length: 15.75, width: 3.5 },
-    { name: "Bathroom", length: 6.25, width: 5.75, steps: 1 },
-  ];
+  const measurements: AreaType[] = [];
 
   const totalSqFt = useMemo(
     () =>
@@ -44,7 +38,7 @@ export const MeasurementCard = () => {
             title="Add measurements"
             iconName="add-circle"
             callbackFunction={() =>
-              router.push("/measurement/new/measurements-form")
+              router.push("/measurement/form-pages/measurements-form")
             }
             disableMargin
             height={50}
@@ -88,7 +82,7 @@ export const MeasurementCard = () => {
               title="Add"
               iconName="add-circle"
               callbackFunction={() =>
-                router.push("/measurement/new/measurements-form")
+                router.push("/measurement/form-pages/measurements-form")
               }
             />
           </View>
