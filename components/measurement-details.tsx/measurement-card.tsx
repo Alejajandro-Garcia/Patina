@@ -20,8 +20,10 @@ export const MeasurementCard = () => {
   const totalSqFt = useMemo(
     () =>
       Math.round(
-        measurements.reduce((sum, area) => sum + area.length * area.width, 0) *
-          100,
+        measurements.reduce(
+          (sum, area) => sum + area.length * area.width * (area.steps ?? 1),
+          0,
+        ) * 100,
       ) / 100,
     [measurements],
   );
@@ -58,14 +60,13 @@ export const MeasurementCard = () => {
             {measurements.map((area, index) => (
               <View
                 key={area.name}
-                style={{
-                  padding: 5,
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  backgroundColor:
-                    index % 2 === 0 ? colors.input : colors.background,
-                }}
+                style={[
+                  styles.row,
+                  {
+                    backgroundColor:
+                      index % 2 === 0 ? colors.input : colors.background,
+                  },
+                ]}
               >
                 <Text style={{ fontFamily: fonts.semiBold, fontSize: 16 }}>
                   {area.name}
@@ -108,6 +109,12 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.15,
     shadowRadius: 3,
     shadowOffset: { width: 0, height: 5 },
+  },
+  row: {
+    padding: 5,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   footer: {
     flexDirection: "row",

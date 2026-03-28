@@ -13,12 +13,7 @@ export default function MeasurementDetails() {
         <ContactInfo />
         <MeasurementCard />
         <Notes />
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "flex-end",
-          }}
-        >
+        <View style={styles.actions}>
           <ActionButton
             iconName="close-circle"
             title="Cancel"
@@ -40,5 +35,9 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 20,
     gap: 12,
+  },
+  actions: {
+    flexDirection: "row",
+    justifyContent: "flex-end",
   },
 });
