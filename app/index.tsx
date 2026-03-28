@@ -40,7 +40,7 @@ export default function Index() {
           <ActionButton
             title="Add"
             iconName="add-circle"
-            callbackFunction={() => navigation.push("/measurement/new")}
+            callbackFunction={() => navigation.push("/measurement/new-measurement")}
           />
         </Pressable>
 
