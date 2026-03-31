@@ -109,7 +109,7 @@ export default function MeasurementsForm() {
         />
         <View style={styles.actions}>
           <ActionButton
-            title="Save"
+            title="Done"
             iconName="checkmark-done-circle"
             callbackFunction={() => router.back()}
           />

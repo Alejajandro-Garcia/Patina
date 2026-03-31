@@ -37,7 +37,7 @@ export default function NotesForm() {
         </View>
         <View style={styles.actions}>
           <ActionButton
-            title="Save"
+            title="Done"
             iconName="add-circle"
             callbackFunction={() => router.back()}
           />

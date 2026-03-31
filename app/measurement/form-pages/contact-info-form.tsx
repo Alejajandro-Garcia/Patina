@@ -23,7 +23,7 @@ export default function ContactInfoForm() {
         <LabeledInput label="Date (mm/dd/yyyy)" placeholder="MM/DD/YYYY" />
         <View style={styles.actions}>
           <ActionButton
-            title="Save"
+            title="Done"
             iconName="add-circle"
             callbackFunction={() => router.back()}
           />
