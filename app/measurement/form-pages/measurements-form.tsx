@@ -73,9 +73,23 @@ export default function MeasurementsForm() {
           Added Measurements:
         </Text>
         <FlatList
-          data={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
+          data={[]}
           style={{ backgroundColor: colors.input, height: "30%" }}
+          contentContainerStyle={{ flexGrow: 1 }}
           onScroll={() => Keyboard.dismiss()}
+          ListEmptyComponent={
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Text style={{ fontFamily: fonts.semiBold, fontStyle: "italic" }}>
+                No measurements added.
+              </Text>
+            </View>
+          }
           renderItem={({ item, index }) => (
             <View
               style={{
