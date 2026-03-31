@@ -27,15 +27,19 @@ export default function EditMeasurement() {
     fetchMeasurement();
   }, [id]);
 
-  return (
-    <PatinaPage>
-      {loading ? (
+  if (loading) {
+    return (
+      <PatinaPage>
         <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
           <ActivityIndicator size="large" />
         </View>
-      ) : (
-        <MeasurementDetails measurement={measurement} />
-      )}
+      </PatinaPage>
+    );
+  }
+
+  return (
+    <PatinaPage>
+      <MeasurementDetails measurement={measurement} />
     </PatinaPage>
   );
 }
