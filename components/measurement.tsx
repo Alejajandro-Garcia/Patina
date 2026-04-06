@@ -2,6 +2,7 @@ import { colors } from "@/theme/colors";
 import { fonts } from "@/theme/fonts";
 import { MeasurementsLandingType } from "@/types/measurements";
 import { Ionicons } from "@expo/vector-icons";
+import { withObservables } from "@nozbe/watermelondb/react";
 import { useRouter } from "expo-router";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
@@ -50,6 +51,12 @@ export const Measurement = (measurement: MeasurementsLandingType) => {
     </TouchableOpacity>
   );
 };
+
+const enhance = withObservables(["measurement"], ({ measurement }) => ({
+  measurement,
+}));
+
+export default enhance(Measurement);
 
 const styles = StyleSheet.create({
   container: {
