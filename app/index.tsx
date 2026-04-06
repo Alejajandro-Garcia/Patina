@@ -1,13 +1,24 @@
 import { ActionButton } from "@/components/action-button";
-import { Measurement } from "@/components/measurement";
+import { Measurement as MeasurementCard } from "@/components/measurement";
 import { PatinaPage } from "@/components/patina-page";
 import { SearchBar } from "@/components/searchbar";
-import { DUMMY_MEASUREMENTS } from "@/test/mock-measurements";
-import { MeasurementsLandingType } from "@/types/measurements";
+import { colors } from "@/theme/colors";
+import { fonts } from "@/theme/fonts";
+import database from "@/watermelonDB";
+import MeasurementModel from "@/watermelonDB/model/measurement";
+import { withObservables } from "@nozbe/watermelondb/react";
 import { useRouter } from "expo-router";
 import Fuse from "fuse.js";
 import { useMemo, useState } from "react";
-import { FlatList, Keyboard, Pressable, StyleSheet, View } from "react-native";
+import {
+  FlatList,
+  Image,
+  Keyboard,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 
 const fuseOptions = {
   keys: ["name"],
@@ -15,11 +26,9 @@ const fuseOptions = {
   ignoreLocation: true,
 };
 
-export default function Index() {
+function Index({ measurements }: { measurements: MeasurementModel[] }) {
   const navigation = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
-  const [measurements] =
-    useState<MeasurementsLandingType[]>(DUMMY_MEASUREMENTS);
 
   const fuse = useMemo(
     () => new Fuse(measurements, fuseOptions),
@@ -40,7 +49,9 @@ export default function Index() {
           <ActionButton
             title="Add"
             iconName="add-circle"
-            callbackFunction={() => navigation.push("/measurement/new-measurement")}
+            callbackFunction={() =>
+              navigation.push("/measurement/new-measurement")
+            }
           />
         </Pressable>
 
@@ -48,14 +59,44 @@ export default function Index() {
           style={styles.scrollContainer}
           showsVerticalScrollIndicator={false}
           onScroll={() => Keyboard.dismiss()}
+          ListEmptyComponent={
+            <View
+              style={{
+                flex: 1,
+                paddingVertical: 40,
+                justifyContent: "center",
+                alignItems: "center",
+                gap: 12,
+                backgroundColor: colors.foreground,
+              }}
+            >
+              <Image
+                source={require("@/assets/images/tape-measure.png")}
+                style={{ width: 80, height: 80, resizeMode: "contain" }}
+              />
+              <Text style={{ fontFamily: fonts.semiBold, fontStyle: "italic" }}>
+                No measurements yet. Tap to add.
+              </Text>
+              <ActionButton
+                title="Add measurements"
+                iconName="add-circle"
+                callbackFunction={() =>
+                  navigation.push("/measurement/new-measurement")
+                }
+                disableMargin
+                height={50}
+                width={180}
+              />
+            </View>
+          }
           data={data}
-          keyExtractor={(item) => item.measurementID}
-          renderItem={({ item }: { item: MeasurementsLandingType }) => (
-            <Measurement
-              measurementID={item.measurementID}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }: { item: MeasurementModel }) => (
+            <MeasurementCard
+              measurementID={item.id}
               name={item.name}
-              date={item.date}
-              totalSQFT={item.totalSQFT}
+              date={item.date.toLocaleDateString()}
+              totalSQFT={item.totalSqft}
             />
           )}
         />
@@ -63,6 +104,15 @@ export default function Index() {
     </PatinaPage>
   );
 }
+
+const enhance = withObservables([], () => ({
+  measurements: database
+    .get<MeasurementModel>("measurements")
+    .query()
+    .observe(),
+}));
+
+export default enhance(Index);
 
 const styles = StyleSheet.create({
   container: {
