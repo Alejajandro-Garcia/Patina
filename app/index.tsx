@@ -1,5 +1,5 @@
 import { ActionButton } from "@/components/action-button";
-import { Measurement as MeasurementCard } from "@/components/measurement";
+import MeasurementCard from "@/components/measurement";
 import { PatinaPage } from "@/components/patina-page";
 import { SearchBar } from "@/components/searchbar";
 import { colors } from "@/theme/colors";
@@ -92,12 +92,7 @@ function Index({ measurements }: { measurements: MeasurementModel[] }) {
           data={data}
           keyExtractor={(item) => item.id}
           renderItem={({ item }: { item: MeasurementModel }) => (
-            <MeasurementCard
-              measurementID={item.id}
-              name={item.name}
-              date={item.date.toLocaleDateString()}
-              totalSQFT={item.totalSqft}
-            />
+            <MeasurementCard measurement={item} />
           )}
         />
       </View>

@@ -1,17 +1,17 @@
 import { colors } from "@/theme/colors";
 import { fonts } from "@/theme/fonts";
-import { MeasurementsLandingType } from "@/types/measurements";
+import MeasurementModel from "@/watermelonDB/model/measurement";
 import { Ionicons } from "@expo/vector-icons";
 import { withObservables } from "@nozbe/watermelondb/react";
 import { useRouter } from "expo-router";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-export const Measurement = (measurement: MeasurementsLandingType) => {
+function Measurement({ measurement }: { measurement: MeasurementModel }) {
   const router = useRouter();
   return (
     <TouchableOpacity
       style={styles.container}
-      onPress={() => router.push(`/measurement/${measurement.measurementID}`)}
+      onPress={() => router.push(`/measurement/${measurement.id}`)}
     >
       <View
         style={{
@@ -30,10 +30,10 @@ export const Measurement = (measurement: MeasurementsLandingType) => {
           {measurement.name}
         </Text>
         <Text style={{ fontFamily: fonts.semiBold, fontSize: 16 }}>
-          {measurement.totalSQFT} sqft
+          {measurement.totalSqft} sqft
         </Text>
         <Text style={{ fontFamily: fonts.semiBold, fontSize: 16 }}>
-          {measurement.date}
+          {measurement.date.toLocaleDateString()}
         </Text>
       </View>
       <View
@@ -50,7 +50,7 @@ export const Measurement = (measurement: MeasurementsLandingType) => {
       </View>
     </TouchableOpacity>
   );
-};
+}
 
 const enhance = withObservables(["measurement"], ({ measurement }) => ({
   measurement,
