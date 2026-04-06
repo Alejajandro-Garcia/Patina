@@ -10,7 +10,7 @@ const sanitizeJson = (raw: unknown) => raw;
 const sanitizeAreas = (raw: unknown) => (Array.isArray(raw) ? raw : []);
 
 export default class MeasurementInfo extends Model {
-  static table = "measurement_info";
+  static table = "measurement_infos";
   @field("measurement_id") measurementId: string;
   @text("name") name: string;
   @json("contact_info", sanitizeJson) contactInfo: ContactInfoType;

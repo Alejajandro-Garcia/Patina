@@ -1,3 +1,4 @@
+import "@/watermelonDB";
 import {
   Inter_300Light,
   Inter_600SemiBold,

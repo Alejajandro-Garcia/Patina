@@ -28,3 +28,13 @@ const database = new Database({
   adapter,
   modelClasses: [Measurement, MeasurementInfo],
 });
+
+database
+  .get("measurements")
+  .query()
+  .fetch()
+  .then((records) => {
+    console.log(`Number of measurements: ${records.length}`);
+  });
+
+export default database;

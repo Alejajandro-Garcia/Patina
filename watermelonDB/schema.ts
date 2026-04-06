@@ -13,7 +13,7 @@ export default appSchema({
       ],
     }),
     tableSchema({
-      name: "measurement_info",
+      name: "measurement_infos",
       columns: [
         { name: "measurement_id", type: "string", isIndexed: true },
         { name: "name", type: "string" },
