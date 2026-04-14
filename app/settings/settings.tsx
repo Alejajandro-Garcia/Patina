@@ -2,14 +2,24 @@ import { ActionButton } from "@/components/action-button";
 import { DropdownMenu } from "@/components/dropdown-menu";
 import { LabeledInput } from "@/components/labeled-input";
 import { PatinaPage } from "@/components/patina-page";
+import useSettingsStore from "@/stores/use-settings-store";
 import { colors } from "@/theme/colors";
 import { fonts } from "@/theme/fonts";
 import { useRouter } from "expo-router";
+import { useState } from "react";
 import { Keyboard, Pressable, StyleSheet, Text, View } from "react-native";
 
 export default function Settings() {
   const menuItems = ["Imperial (sqft/in)", "Metric (m/cm)"];
   const router = useRouter();
+  const unit = useSettingsStore((state) => state.units);
+  const setUnit = useSettingsStore((state) => state.setUnits);
+  const percentage = useSettingsStore((state) => state.percentage);
+  const setPercentage = useSettingsStore((state) => state.setPercentage);
+  const [unitSelected, setUnitSelected] = useState(unit || "");
+  const [percentageSelected, setPercentageSelected] = useState(
+    String(percentage) || "",
+  );
 
   return (
     <PatinaPage>
@@ -27,12 +37,25 @@ export default function Settings() {
           <View style={styles.row}>
             <Text style={styles.label}>Extra percentage</Text>
             <View style={{ width: 150 }}>
-              <LabeledInput placeholder="10%" number />
+              <LabeledInput
+                placeholder="10%"
+                number
+                value={percentageSelected}
+                setValue={setPercentageSelected}
+              />
             </View>
           </View>
 
           <View style={styles.buttonRow}>
-            <ActionButton iconName="checkmark-circle" title="Save" />
+            <ActionButton
+              iconName="checkmark-circle"
+              title="Save"
+              callbackFunction={() => {
+                Keyboard.dismiss();
+                setUnit(unitSelected);
+                setPercentage(Number(percentageSelected));
+              }}
+            />
           </View>
         </Pressable>
         <View style={styles.card}>

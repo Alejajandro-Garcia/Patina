@@ -7,6 +7,8 @@ interface LabeledInputProps {
   placeholder: string;
   number?: boolean;
   textArea?: boolean;
+  value?: string;
+  setValue?: (value: string) => void;
 }
 
 export const LabeledInput = ({
@@ -14,6 +16,8 @@ export const LabeledInput = ({
   placeholder,
   number,
   textArea,
+  value,
+  setValue,
 }: LabeledInputProps) => {
   return (
     <View>
@@ -25,6 +29,8 @@ export const LabeledInput = ({
         multiline={textArea}
         numberOfLines={textArea ? 3 : 1}
         keyboardType={number ? "numeric" : "default"}
+        value={value}
+        onChangeText={setValue}
       />
     </View>
   );
