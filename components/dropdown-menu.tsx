@@ -4,14 +4,20 @@ import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-interface DropdownMenuProps {
+interface DropdownMenuProps<T extends string> {
   title: string;
-  dropdownItems: string[];
+  dropdownItems: readonly T[];
+  selected: T | "";
+  setSelected: (value: T) => void;
 }
 
-export const DropdownMenu = ({ title, dropdownItems }: DropdownMenuProps) => {
+export const DropdownMenu = <T extends string>({
+  title,
+  dropdownItems,
+  selected,
+  setSelected,
+}: DropdownMenuProps<T>) => {
   const [open, setOpen] = useState(false);
-  const [selected, setSelected] = useState("");
 
   return (
     <View style={styles.container}>

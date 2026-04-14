@@ -10,7 +10,7 @@ import { useState } from "react";
 import { Keyboard, Pressable, StyleSheet, Text, View } from "react-native";
 
 export default function Settings() {
-  const menuItems = ["Imperial (sqft/in)", "Metric (m/cm)"];
+  const menuItems = ["Imperial (sqft/in)", "Metric (m/cm)"] as const;
   const router = useRouter();
   const unit = useSettingsStore((state) => state.units);
   const setUnit = useSettingsStore((state) => state.setUnits);
@@ -32,7 +32,12 @@ export default function Settings() {
 
           <View style={styles.row}>
             <Text style={styles.label}>Unit of measurement</Text>
-            <DropdownMenu title="Select unit" dropdownItems={menuItems} />
+            <DropdownMenu
+              title="Select unit"
+              dropdownItems={menuItems}
+              selected={unitSelected}
+              setSelected={setUnitSelected}
+            />
           </View>
           <View style={styles.row}>
             <Text style={styles.label}>Extra percentage</Text>
