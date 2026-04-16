@@ -2,6 +2,8 @@ import { ActionButton } from "@/components/action-button";
 import { DropdownMenu } from "@/components/dropdown-menu";
 import { LabeledInput } from "@/components/labeled-input";
 import { PatinaPage } from "@/components/patina-page";
+import FailedToast from "@/components/toast-configs/failed-toast";
+import SuccessToast from "@/components/toast-configs/success-toast";
 import useSettingsStore from "@/stores/use-settings-store";
 import { colors } from "@/theme/colors";
 import { fonts } from "@/theme/fonts";
@@ -21,6 +23,18 @@ export default function Settings() {
   const [percentageSelected, setPercentageSelected] = useState(
     String(percentage) === "0" ? "" : String(percentage),
   );
+
+  const onSaveHandler = () => {
+    Keyboard.dismiss();
+    setUnit(unitSelected);
+    const parsedPercentage = Number(percentageSelected);
+    if (isNaN(parsedPercentage) || parsedPercentage <= 0) {
+      Toast.show(FailedToast("Invalid percentage or zero"));
+      return;
+    }
+    Toast.show(SuccessToast);
+    setPercentage(parsedPercentage);
+  };
 
   return (
     <PatinaPage>
@@ -56,12 +70,7 @@ export default function Settings() {
             <ActionButton
               iconName="checkmark-circle"
               title="Save"
-              callbackFunction={() => {
-                Keyboard.dismiss();
-                setUnit(unitSelected);
-                setPercentage(Number(percentageSelected));
-                Toast.success("Settings saved successfully", "bottom");
-              }}
+              callbackFunction={onSaveHandler}
             />
           </View>
         </Pressable>
