@@ -8,6 +8,7 @@ import { fonts } from "@/theme/fonts";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Keyboard, Pressable, StyleSheet, Text, View } from "react-native";
+import { Toast } from "toastify-react-native";
 
 export default function Settings() {
   const menuItems = ["Imperial (sqft/in)", "Metric (m/cm)"] as const;
@@ -18,7 +19,7 @@ export default function Settings() {
   const setPercentage = useSettingsStore((state) => state.setPercentage);
   const [unitSelected, setUnitSelected] = useState(unit || "");
   const [percentageSelected, setPercentageSelected] = useState(
-    String(percentage) || "",
+    String(percentage) === "0" ? "" : String(percentage),
   );
 
   return (
@@ -59,6 +60,7 @@ export default function Settings() {
                 Keyboard.dismiss();
                 setUnit(unitSelected);
                 setPercentage(Number(percentageSelected));
+                Toast.success("Settings saved successfully", "bottom");
               }}
             />
           </View>
