@@ -1,4 +1,4 @@
-import { MeasurementDetails } from "@/components/measurement-details.tsx/measurement-details";
+import { MeasurementDetails } from "@/components/measurement-details/measurement-details";
 import { PatinaPage } from "@/components/patina-page";
 
 export default function NewMeasurement() {

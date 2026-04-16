@@ -1,4 +1,4 @@
-import { MeasurementDetails } from "@/components/measurement-details.tsx/measurement-details";
+import { MeasurementDetails } from "@/components/measurement-details/measurement-details";
 import { PatinaPage } from "@/components/patina-page";
 import { MeasurementInfoType } from "@/types/measurementInfo";
 import { useLocalSearchParams } from "expo-router";
@@ -30,7 +30,9 @@ export default function EditMeasurement() {
   if (loading) {
     return (
       <PatinaPage>
-        <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <View
+          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+        >
           <ActivityIndicator size="large" />
         </View>
       </PatinaPage>
