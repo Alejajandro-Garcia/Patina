@@ -8,7 +8,6 @@ const SuccessToast: ToastShowParams = {
   visibilityTime: 5000,
   textColor: "green",
   backgroundColor: colors.input,
-  useModal: false,
 };
 
 export default SuccessToast;

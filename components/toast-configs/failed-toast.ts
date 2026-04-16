@@ -8,7 +8,6 @@ const FailedToast = (errorMessage: string) => {
     visibilityTime: 5000,
     backgroundColor: colors.foreground,
     textColor: "red",
-    useModal: false,
   };
   return FailedToastConfig;
 };

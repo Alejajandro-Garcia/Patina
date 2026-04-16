@@ -25,7 +25,7 @@ export default function RootLayout() {
     <KeyboardProvider>
       <SafeAreaProvider>
         <Stack screenOptions={{ headerShown: false }} />
-        <ToastManager />
+        <ToastManager useModal={false} />
       </SafeAreaProvider>
     </KeyboardProvider>
   );
