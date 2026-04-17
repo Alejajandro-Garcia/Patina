@@ -11,22 +11,27 @@ import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Keyboard, Pressable, StyleSheet, Text, View } from "react-native";
 import { Toast } from "toastify-react-native";
+import { useShallow } from "zustand/react/shallow";
 
 export default function Settings() {
   const menuItems = ["Imperial (sqft/in)", "Metric (m/cm)"] as const;
   const router = useRouter();
-  const unit = useSettingsStore((state) => state.units);
-  const setUnit = useSettingsStore((state) => state.setUnits);
-  const percentage = useSettingsStore((state) => state.percentage);
-  const setPercentage = useSettingsStore((state) => state.setPercentage);
-  const [unitSelected, setUnitSelected] = useState(unit || "");
+  const { units, setUnits, percentage, setPercentage } = useSettingsStore(
+    useShallow((state) => ({
+      units: state.units,
+      setUnits: state.setUnits,
+      percentage: state.percentage,
+      setPercentage: state.setPercentage,
+    })),
+  );
+  const [unitSelected, setUnitSelected] = useState(units || "");
   const [percentageSelected, setPercentageSelected] = useState(
     String(percentage) === "0" ? "" : String(percentage),
   );
 
   const onSaveHandler = () => {
     Keyboard.dismiss();
-    setUnit(unitSelected);
+    setUnits(unitSelected);
     const parsedPercentage = Number(percentageSelected);
     if (isNaN(parsedPercentage) || parsedPercentage <= 0) {
       Toast.show(FailedToast("Invalid percentage or zero"));
