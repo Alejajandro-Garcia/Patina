@@ -6,9 +6,13 @@ interface SettingsState {
   setPercentage: (percentage: number) => void;
 }
 
-const useSettingsStore = create<SettingsState>((set) => ({
+const initialState: Pick<SettingsState, "units" | "percentage"> = {
   units: "Imperial (sqft/in)",
   percentage: 0,
+};
+
+const useSettingsStore = create<SettingsState>((set) => ({
+  ...initialState,
   setUnits: (units: "Imperial (sqft/in)" | "Metric (m/cm)") => set({ units }),
   setPercentage: (percentage: number) => set({ percentage }),
 }));
