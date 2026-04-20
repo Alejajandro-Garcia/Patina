@@ -1,12 +1,15 @@
 import { ActionButton } from "@/components/action-button";
 import { LabeledInput } from "@/components/labeled-input";
 import { PatinaPage } from "@/components/patina-page";
+import { ContactInfoType } from "@/types/measurementInfo";
 import { useRouter } from "expo-router";
+import { useForm } from "react-hook-form";
 import { StyleSheet, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 
 export default function ContactInfoForm() {
   const router = useRouter();
+  const methods = useForm<ContactInfoType>();
 
   return (
     <PatinaPage>

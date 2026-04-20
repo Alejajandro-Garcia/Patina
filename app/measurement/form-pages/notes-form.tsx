@@ -1,12 +1,36 @@
 import { ActionButton } from "@/components/action-button";
 import { LabeledInput } from "@/components/labeled-input";
 import { PatinaPage } from "@/components/patina-page";
+import useMeasurementDetailsStore from "@/stores/use-measurement-details-store";
+import { NotesType } from "@/types/measurementInfo";
 import { useRouter } from "expo-router";
+import { useForm } from "react-hook-form";
 import { StyleSheet, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 
+const returnDefaultValues = (notes: NotesType | null): NotesType => {
+  if (notes) return notes;
+  return {
+    productInfo: "",
+    toiletRnR: 0,
+    furnitureRnR: 0,
+    floorPrep: 0,
+    appliancesRnR: 0,
+    pullUpAndDisposal: 0,
+    baseboards: 0,
+    moldings: {
+      endcaps: 0,
+      tMoldings: 0,
+      reducers: 0,
+    },
+  };
+};
 export default function NotesForm() {
   const router = useRouter();
+  const notes = useMeasurementDetailsStore((state) => state.notes);
+  const methods = useForm<NotesType>({
+    defaultValues: returnDefaultValues(notes),
+  });
 
   return (
     <PatinaPage>

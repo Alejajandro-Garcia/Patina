@@ -3,9 +3,11 @@ import { LabeledInput } from "@/components/labeled-input";
 import { PatinaPage } from "@/components/patina-page";
 import { colors } from "@/theme/colors";
 import { fonts } from "@/theme/fonts";
+import { AreaType } from "@/types/measurementInfo";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 import {
   FlatList,
   Keyboard,
@@ -19,6 +21,7 @@ import {
 export default function MeasurementsForm() {
   const router = useRouter();
   const [hasSteps, setHasSteps] = useState(false);
+  const methods = useForm<AreaType[]>();
 
   return (
     <PatinaPage>
