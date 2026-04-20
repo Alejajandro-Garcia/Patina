@@ -1,5 +1,5 @@
+import useMeasurementDetailsStore from "@/stores/use-measurement-details-store";
 import { fonts } from "@/theme/fonts";
-import { NotesType } from "@/types/measurementInfo";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { StyleSheet, Text, View } from "react-native";
@@ -7,7 +7,7 @@ import { EditableCard } from "./editable-card";
 
 export const Notes = () => {
   const router = useRouter();
-  const notes = null as NotesType | null;
+  const notes = useMeasurementDetailsStore((state) => state.notes);
   return (
     <EditableCard
       title={"Notes (optional)"}

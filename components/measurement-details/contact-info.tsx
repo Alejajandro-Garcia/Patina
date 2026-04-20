@@ -1,5 +1,5 @@
+import useMeasurementDetailsStore from "@/stores/use-measurement-details-store";
 import { fonts } from "@/theme/fonts";
-import { ContactInfoType } from "@/types/measurementInfo";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { Text, View } from "react-native";
@@ -7,7 +7,8 @@ import { EditableCard } from "./editable-card";
 
 export const ContactInfo = ({}) => {
   const router = useRouter();
-  const contactInfo = null as ContactInfoType | null;
+  const contactInfo = useMeasurementDetailsStore((state) => state.contactInfo);
+
   return (
     <EditableCard
       title={"Contact Info"}

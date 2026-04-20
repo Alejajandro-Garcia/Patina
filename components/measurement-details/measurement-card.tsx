@@ -1,6 +1,6 @@
+import useMeasurementDetailsStore from "@/stores/use-measurement-details-store";
 import { colors } from "@/theme/colors";
 import { fonts } from "@/theme/fonts";
-import { AreaType } from "@/types/measurementInfo";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useMemo } from "react";
@@ -9,7 +9,7 @@ import { ActionButton } from "../action-button";
 
 export const MeasurementCard = () => {
   const router = useRouter();
-  const measurements: AreaType[] = [];
+  const measurements = useMeasurementDetailsStore((state) => state.areas);
 
   const totalSqFt = useMemo(
     () =>
