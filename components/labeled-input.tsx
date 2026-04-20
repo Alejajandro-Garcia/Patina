@@ -9,6 +9,7 @@ interface LabeledInputProps {
   textArea?: boolean;
   value?: string;
   setValue?: (value: string) => void;
+  error?: boolean;
 }
 
 export const LabeledInput = ({
@@ -18,6 +19,7 @@ export const LabeledInput = ({
   textArea,
   value,
   setValue,
+  error,
 }: LabeledInputProps) => {
   return (
     <View>
@@ -25,7 +27,11 @@ export const LabeledInput = ({
       <TextInput
         placeholder={placeholder}
         placeholderTextColor={colors.placeholder}
-        style={[styles.inputWrapper, { minHeight: textArea ? 100 : 20 }]}
+        style={[
+          styles.inputWrapper,
+          { minHeight: textArea ? 100 : 20 },
+          error && styles.errorBorder,
+        ]}
         multiline={textArea}
         numberOfLines={textArea ? 3 : 1}
         keyboardType={number ? "numeric" : "default"}
@@ -46,5 +52,9 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     borderRadius: 3,
     fontFamily: fonts.regular,
+  },
+  errorBorder: {
+    borderWidth: 1,
+    borderColor: "red",
   },
 });

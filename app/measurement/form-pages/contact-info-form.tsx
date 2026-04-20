@@ -3,7 +3,7 @@ import { LabeledInput } from "@/components/labeled-input";
 import { PatinaPage } from "@/components/patina-page";
 import { ContactInfoType } from "@/types/measurementInfo";
 import { useRouter } from "expo-router";
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { StyleSheet, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 
@@ -12,32 +12,34 @@ export default function ContactInfoForm() {
   const methods = useForm<ContactInfoType>();
 
   return (
-    <PatinaPage>
-      <KeyboardAwareScrollView
-        contentContainerStyle={styles.content}
-        keyboardShouldPersistTaps="handled"
-        showsVerticalScrollIndicator={false}
-        bottomOffset={100}
-      >
-        <LabeledInput label="Full Name" placeholder="John Doe" />
-        <LabeledInput label="Address" placeholder="123 Main Street" />
-        <LabeledInput label="Email" placeholder="john.doe@example.com" />
-        <LabeledInput label="Phone" placeholder="(123) 456-7890" />
-        <LabeledInput label="Date (mm/dd/yyyy)" placeholder="MM/DD/YYYY" />
-        <View style={styles.actions}>
-          <ActionButton
-            title="Done"
-            iconName="add-circle"
-            callbackFunction={() => router.back()}
-          />
-          <ActionButton
-            title="Cancel"
-            iconName="close"
-            callbackFunction={() => router.back()}
-          />
-        </View>
-      </KeyboardAwareScrollView>
-    </PatinaPage>
+    <FormProvider {...methods}>
+      <PatinaPage>
+        <KeyboardAwareScrollView
+          contentContainerStyle={styles.content}
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
+          bottomOffset={100}
+        >
+          <LabeledInput label="Full Name" placeholder="John Doe" />
+          <LabeledInput label="Address" placeholder="123 Main Street" />
+          <LabeledInput label="Email" placeholder="john.doe@example.com" />
+          <LabeledInput label="Phone" placeholder="(123) 456-7890" />
+          <LabeledInput label="Date (mm/dd/yyyy)" placeholder="MM/DD/YYYY" />
+          <View style={styles.actions}>
+            <ActionButton
+              title="Done"
+              iconName="add-circle"
+              callbackFunction={() => router.back()}
+            />
+            <ActionButton
+              title="Cancel"
+              iconName="close"
+              callbackFunction={() => router.back()}
+            />
+          </View>
+        </KeyboardAwareScrollView>
+      </PatinaPage>
+    </FormProvider>
   );
 }
 
