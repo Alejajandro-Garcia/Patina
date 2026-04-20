@@ -1,15 +1,38 @@
 import { ActionButton } from "@/components/action-button";
 import { FormLabeledInput } from "@/components/form-labeled-input";
 import { PatinaPage } from "@/components/patina-page";
+import useMeasurementDetailsStore from "@/stores/use-measurement-details-store";
 import { ContactInfoType } from "@/types/measurementInfo";
 import { useRouter } from "expo-router";
 import { FormProvider, useForm } from "react-hook-form";
 import { StyleSheet, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
+import { useShallow } from "zustand/react/shallow";
+
+const returnDefaultValues = (
+  contactInfo: ContactInfoType | null,
+): ContactInfoType => {
+  if (contactInfo) return contactInfo;
+  return {
+    name: null,
+    address: null,
+    email: null,
+    phone: null,
+    date: null,
+  };
+};
 
 export default function ContactInfoForm() {
   const router = useRouter();
-  const methods = useForm<ContactInfoType>();
+  const { contactInfo, setContactInfo } = useMeasurementDetailsStore(
+    useShallow((state) => ({
+      contactInfo: state.contactInfo,
+      setContactInfo: state.setContactInfo,
+    })),
+  );
+  const methods = useForm<ContactInfoType>({
+    defaultValues: returnDefaultValues(contactInfo),
+  });
 
   return (
     <FormProvider {...methods}>
@@ -52,7 +75,10 @@ export default function ContactInfoForm() {
             <ActionButton
               title="Done"
               iconName="add-circle"
-              callbackFunction={methods.handleSubmit(() => router.back())}
+              callbackFunction={methods.handleSubmit((data) => {
+                setContactInfo(data);
+                router.back();
+              })}
             />
             <ActionButton
               title="Cancel"
