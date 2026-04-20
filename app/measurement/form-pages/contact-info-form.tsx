@@ -1,5 +1,5 @@
 import { ActionButton } from "@/components/action-button";
-import { LabeledInput } from "@/components/labeled-input";
+import { FormLabeledInput } from "@/components/form-labeled-input";
 import { PatinaPage } from "@/components/patina-page";
 import { ContactInfoType } from "@/types/measurementInfo";
 import { useRouter } from "expo-router";
@@ -20,16 +20,39 @@ export default function ContactInfoForm() {
           showsVerticalScrollIndicator={false}
           bottomOffset={100}
         >
-          <LabeledInput label="Full Name" placeholder="John Doe" />
-          <LabeledInput label="Address" placeholder="123 Main Street" />
-          <LabeledInput label="Email" placeholder="john.doe@example.com" />
-          <LabeledInput label="Phone" placeholder="(123) 456-7890" />
-          <LabeledInput label="Date (mm/dd/yyyy)" placeholder="MM/DD/YYYY" />
+          <FormLabeledInput
+            name="name"
+            label="Full Name"
+            placeholder="John Doe"
+            required
+          />
+          <FormLabeledInput
+            name="address"
+            label="Address"
+            placeholder="123 Main Street"
+            required
+          />
+          <FormLabeledInput
+            name="email"
+            label="Email"
+            placeholder="john.doe@example.com"
+          />
+          <FormLabeledInput
+            name="phone"
+            label="Phone"
+            placeholder="(123) 456-7890"
+          />
+          <FormLabeledInput
+            name="date"
+            label="Date (mm/dd/yyyy)"
+            placeholder="MM/DD/YYYY"
+            required
+          />
           <View style={styles.actions}>
             <ActionButton
               title="Done"
               iconName="add-circle"
-              callbackFunction={() => router.back()}
+              callbackFunction={methods.handleSubmit(() => router.back())}
             />
             <ActionButton
               title="Cancel"
