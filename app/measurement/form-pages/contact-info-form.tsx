@@ -1,9 +1,11 @@
 import { ActionButton } from "@/components/action-button";
+import { ConfirmationModal } from "@/components/confirmation-modal";
 import { FormLabeledInput } from "@/components/form-labeled-input";
 import { PatinaPage } from "@/components/patina-page";
 import useMeasurementDetailsStore from "@/stores/use-measurement-details-store";
 import { ContactInfoType } from "@/types/measurementInfo";
 import { useRouter } from "expo-router";
+import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { StyleSheet, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
@@ -33,9 +35,24 @@ export default function ContactInfoForm() {
   const methods = useForm<ContactInfoType>({
     defaultValues: returnDefaultValues(contactInfo),
   });
+  const {
+    handleSubmit,
+    formState: { isDirty },
+  } = methods;
+  const [confirmationVisible, setConfirmationVisible] = useState(false);
 
   return (
     <FormProvider {...methods}>
+      <ConfirmationModal
+        visible={confirmationVisible}
+        title="Unsaved changes"
+        message="You have unsaved changes. Are you sure you want to discard?"
+        onClose={() => setConfirmationVisible(false)}
+        onConfirm={() => {
+          setConfirmationVisible(false);
+          router.back();
+        }}
+      />
       <PatinaPage>
         <KeyboardAwareScrollView
           contentContainerStyle={styles.content}
@@ -75,7 +92,7 @@ export default function ContactInfoForm() {
             <ActionButton
               title="Done"
               iconName="add-circle"
-              callbackFunction={methods.handleSubmit((data) => {
+              callbackFunction={handleSubmit((data) => {
                 setContactInfo(data);
                 router.back();
               })}
@@ -83,7 +100,13 @@ export default function ContactInfoForm() {
             <ActionButton
               title="Cancel"
               iconName="close"
-              callbackFunction={() => router.back()}
+              callbackFunction={() => {
+                if (isDirty) {
+                  setConfirmationVisible(true);
+                } else {
+                  router.back();
+                }
+              }}
             />
           </View>
         </KeyboardAwareScrollView>
