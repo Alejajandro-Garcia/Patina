@@ -7,11 +7,11 @@ export type MeasurementInfoType = {
 };
 
 export type ContactInfoType = {
-  name: string | null;
-  email?: string | null;
-  phone?: string | null;
-  address: string | null;
-  date: string | null;
+  name: string;
+  email?: string;
+  phone?: string;
+  address: string;
+  date: string;
 };
 
 export type AreaType = {

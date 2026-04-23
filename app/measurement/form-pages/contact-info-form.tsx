@@ -11,17 +11,24 @@ import { StyleSheet, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 import { useShallow } from "zustand/react/shallow";
 
+const stripEmpty = (data: ContactInfoType): ContactInfoType => {
+  const { name, address, date, ...optional } = data;
+  const filteredOptional = Object.fromEntries(
+    Object.entries(optional).filter(([, v]) => v),
+  );
+  return {
+    name,
+    address,
+    date,
+    ...filteredOptional,
+  };
+};
+
 const returnDefaultValues = (
   contactInfo: ContactInfoType | null,
 ): ContactInfoType => {
   if (contactInfo) return contactInfo;
-  return {
-    name: null,
-    address: null,
-    email: null,
-    phone: null,
-    date: null,
-  };
+  return { name: "", address: "", date: "" };
 };
 
 export default function ContactInfoForm() {
@@ -93,7 +100,7 @@ export default function ContactInfoForm() {
               title="Done"
               iconName="add-circle"
               callbackFunction={handleSubmit((data) => {
-                setContactInfo(data);
+                setContactInfo(stripEmpty(data));
                 router.back();
               })}
             />
