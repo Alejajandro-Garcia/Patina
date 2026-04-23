@@ -11,7 +11,7 @@ import { StyleSheet, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 import { useShallow } from "zustand/react/shallow";
 
-const stripZeros = (data: NotesType): NotesType => {
+const stripEmpty = (data: NotesType): NotesType => {
   const { productInfo, moldings, ...numerics } = data;
   const filteredNumerics = Object.fromEntries(
     Object.entries(numerics).filter(([, v]) => v),
@@ -139,7 +139,7 @@ export default function NotesForm() {
               title="Done"
               iconName="add-circle"
               callbackFunction={handleSubmit((data) => {
-                setNotes(stripZeros(data));
+                setNotes(stripEmpty(data));
                 router.back();
               })}
             />
