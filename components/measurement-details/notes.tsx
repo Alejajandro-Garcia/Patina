@@ -8,6 +8,7 @@ import { EditableCard } from "./editable-card";
 export const Notes = () => {
   const router = useRouter();
   const notes = useMeasurementDetailsStore((state) => state.notes);
+
   return (
     <EditableCard
       title={"Notes (optional)"}
