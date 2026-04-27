@@ -1,5 +1,5 @@
 import { ActionButton } from "@/components/action-button";
-import { LabeledInput } from "@/components/labeled-input";
+import { FormLabeledInput } from "@/components/form-labeled-input";
 import { PatinaPage } from "@/components/patina-page";
 import useMeasurementDetailsStore from "@/stores/use-measurement-details-store";
 import { colors } from "@/theme/colors";
@@ -20,6 +20,19 @@ import {
 } from "react-native";
 import { useShallow } from "zustand/react/shallow";
 
+const defaultValues: AreaType = {
+  name: "",
+  length: 0,
+  width: 0,
+};
+
+const stripEmpty = (data: AreaType, hasSteps: boolean): AreaType => {
+  const { name, length, width, steps } = data;
+  return hasSteps && steps
+    ? { name, length, width, steps }
+    : { name, length, width };
+};
+
 export default function MeasurementsForm() {
   const router = useRouter();
   const [hasSteps, setHasSteps] = useState(false);
@@ -29,18 +42,29 @@ export default function MeasurementsForm() {
       setAreas: state.setAreas,
     })),
   );
-  const methods = useForm<AreaType>();
-  const [draftAreas, setDraftAreas] = useState<AreaType[]>([]);
+
+  const methods = useForm<AreaType>({ defaultValues });
+  const { handleSubmit, reset } = methods;
+  const [draftAreas, setDraftAreas] = useState<AreaType[]>(areas);
 
   return (
     <FormProvider {...methods}>
       <PatinaPage>
         <View style={styles.content}>
           <Pressable style={{ gap: 8 }} onPress={() => Keyboard.dismiss()}>
-            <LabeledInput label="Area Name" placeholder="Living Room" />
+            <FormLabeledInput
+              label="Area Name"
+              placeholder="Living Room"
+              name="name"
+            />
             <View style={{ flexDirection: "row", gap: 8 }}>
               <View style={{ flex: 1, gap: 8 }}>
-                <LabeledInput label="Length" placeholder="12" number />
+                <FormLabeledInput
+                  label="Length"
+                  placeholder="12"
+                  number
+                  name="length"
+                />
                 <View style={{ flex: 1, justifyContent: "center" }}>
                   <View
                     style={{
@@ -61,9 +85,19 @@ export default function MeasurementsForm() {
                 </View>
               </View>
               <View style={{ flex: 1, gap: 8 }}>
-                <LabeledInput label="Width" placeholder="10" number />
+                <FormLabeledInput
+                  label="Width"
+                  placeholder="10"
+                  number
+                  name="width"
+                />
                 <View style={{ opacity: hasSteps ? 1 : 0 }}>
-                  <LabeledInput label="Steps" placeholder="0" number />
+                  <FormLabeledInput
+                    label="Steps"
+                    placeholder="0"
+                    number
+                    name="steps"
+                  />
                 </View>
               </View>
             </View>
@@ -77,12 +111,24 @@ export default function MeasurementsForm() {
               <ActionButton
                 title="Reset"
                 iconName="play-back"
-                callbackFunction={() => Keyboard.dismiss()}
+                callbackFunction={() => {
+                  reset(defaultValues);
+                  setHasSteps(false);
+                  Keyboard.dismiss();
+                }}
               />
               <ActionButton
                 title="Add"
                 iconName="add-circle"
-                callbackFunction={() => Keyboard.dismiss()}
+                callbackFunction={handleSubmit((data) => {
+                  setDraftAreas((prev) => [
+                    ...prev,
+                    stripEmpty(data, hasSteps),
+                  ]);
+                  reset(defaultValues);
+                  setHasSteps(false);
+                  Keyboard.dismiss();
+                })}
               />
             </View>
           </Pressable>
@@ -125,14 +171,28 @@ export default function MeasurementsForm() {
                   style={{
                     fontFamily: fonts.semiBold,
                     fontSize: 16,
+                    width: 150,
                   }}
+                  numberOfLines={1}
+                  ellipsizeMode="tail"
                 >
                   {item.name}
                 </Text>
-                <Text style={{ fontFamily: fonts.semiBold, fontSize: 16 }}>
+                <Text
+                  style={{
+                    fontFamily: fonts.semiBold,
+                    fontSize: 16,
+                    flex: 1,
+                  }}
+                >
                   {`${item.length} x ${item.width}${item.steps ? ` x ${item.steps}` : ""} ft`}
                 </Text>
-                <View style={{ flexDirection: "row", gap: 20 }}>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    gap: 10,
+                  }}
+                >
                   <Ionicons name="pencil" size={20} />
                   <Ionicons name="trash" size={20} />
                 </View>
@@ -143,7 +203,10 @@ export default function MeasurementsForm() {
             <ActionButton
               title="Done"
               iconName="checkmark-done-circle"
-              callbackFunction={() => router.back()}
+              callbackFunction={() => {
+                setAreas(draftAreas);
+                router.back();
+              }}
             />
             <ActionButton
               title="Cancel"

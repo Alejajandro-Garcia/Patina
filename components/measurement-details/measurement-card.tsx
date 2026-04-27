@@ -3,13 +3,30 @@ import { colors } from "@/theme/colors";
 import { fonts } from "@/theme/fonts";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { useMemo } from "react";
-import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
+import { useMemo, useState } from "react";
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { useShallow } from "zustand/react/shallow";
 import { ActionButton } from "../action-button";
+import { ConfirmationModal } from "../confirmation-modal";
 
 export const MeasurementCard = () => {
   const router = useRouter();
-  const measurements = useMeasurementDetailsStore((state) => state.areas);
+  const { measurements, setMeasurements } = useMeasurementDetailsStore(
+    useShallow((state) => ({
+      measurements: state.areas,
+      setMeasurements: state.setAreas,
+    })),
+  );
+  const [deleteIndex, setDeleteIndex] = useState<number | null>(null);
+  const [visibleConfirmationModal, setConfirmationModal] =
+    useState<boolean>(false);
 
   const totalSqFt = useMemo(
     () =>
@@ -24,6 +41,18 @@ export const MeasurementCard = () => {
 
   return (
     <View style={styles.container}>
+      <ConfirmationModal
+        visible={visibleConfirmationModal}
+        title="Delete area"
+        message="Are you sure you want to delete this area?"
+        onClose={() => setConfirmationModal(false)}
+        onConfirm={() => {
+          setMeasurements(
+            measurements.filter((_, index) => index !== deleteIndex),
+          );
+          setConfirmationModal(false);
+        }}
+      />
       <Text style={styles.important}>Areas and Measurement</Text>
       {measurements.length === 0 ? (
         <View style={styles.emptyState}>
@@ -62,14 +91,29 @@ export const MeasurementCard = () => {
                   },
                 ]}
               >
-                <Text style={{ fontFamily: fonts.semiBold, fontSize: 16 }}>
+                <Text
+                  style={{
+                    fontFamily: fonts.semiBold,
+                    fontSize: 16,
+                    width: 150,
+                  }}
+                  numberOfLines={1}
+                  ellipsizeMode="tail"
+                >
                   {area.name}
                 </Text>
                 <Text style={{ fontFamily: fonts.regular, fontSize: 16 }}>
                   {area.length}' x {area.width}'
                   {area.steps && ` x ${area.steps}`}
                 </Text>
-                <Ionicons name="remove-circle" size={24} />
+                <TouchableOpacity
+                  onPress={() => {
+                    setConfirmationModal(true);
+                    setDeleteIndex(index);
+                  }}
+                >
+                  <Ionicons name="remove-circle" size={24} />
+                </TouchableOpacity>
               </View>
             ))}
           </ScrollView>
