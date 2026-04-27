@@ -1,4 +1,5 @@
 import { ActionButton } from "@/components/action-button";
+import { ConfirmationModal } from "@/components/confirmation-modal";
 import { FormLabeledInput } from "@/components/form-labeled-input";
 import { PatinaPage } from "@/components/patina-page";
 import useMeasurementDetailsStore from "@/stores/use-measurement-details-store";
@@ -16,6 +17,7 @@ import {
   StyleSheet,
   Switch,
   Text,
+  TouchableOpacity,
   View,
 } from "react-native";
 import { useShallow } from "zustand/react/shallow";
@@ -42,14 +44,27 @@ export default function MeasurementsForm() {
       setAreas: state.setAreas,
     })),
   );
-
   const methods = useForm<AreaType>({ defaultValues });
   const { handleSubmit, reset } = methods;
   const [draftAreas, setDraftAreas] = useState<AreaType[]>(areas);
+  const [deleteIndex, setDeleteIndex] = useState<number>();
+  const [visibleModal, setVisibleModal] = useState(false);
 
   return (
     <FormProvider {...methods}>
       <PatinaPage>
+        <ConfirmationModal
+          visible={visibleModal}
+          title="Delete area?"
+          message="Are you sure you want to delete this area?"
+          onClose={() => setVisibleModal(false)}
+          onConfirm={() => {
+            setDraftAreas(
+              draftAreas.filter((_, index) => index !== deleteIndex),
+            );
+            setVisibleModal(false);
+          }}
+        />
         <View style={styles.content}>
           <Pressable style={{ gap: 8 }} onPress={() => Keyboard.dismiss()}>
             <FormLabeledInput
@@ -193,8 +208,17 @@ export default function MeasurementsForm() {
                     gap: 10,
                   }}
                 >
-                  <Ionicons name="pencil" size={20} />
-                  <Ionicons name="trash" size={20} />
+                  <TouchableOpacity>
+                    <Ionicons name="pencil" size={20} />
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => {
+                      setVisibleModal(true);
+                      setDeleteIndex(index);
+                    }}
+                  >
+                    <Ionicons name="trash" size={20} />
+                  </TouchableOpacity>
                 </View>
               </View>
             )}
