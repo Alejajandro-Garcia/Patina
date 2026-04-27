@@ -90,7 +90,7 @@ export default function MeasurementsForm() {
             Added Measurements:
           </Text>
           <FlatList
-            data={areas}
+            data={draftAreas}
             style={{ backgroundColor: colors.input, height: "30%" }}
             contentContainerStyle={{ flexGrow: 1 }}
             onScroll={() => Keyboard.dismiss()}
@@ -122,16 +122,15 @@ export default function MeasurementsForm() {
                 }}
               >
                 <Text
-                  key={index}
                   style={{
                     fontFamily: fonts.semiBold,
                     fontSize: 16,
                   }}
                 >
-                  Item {index}
+                  {item.name}
                 </Text>
                 <Text style={{ fontFamily: fonts.semiBold, fontSize: 16 }}>
-                  10 x 10 x 12 ft
+                  {`${item.length} x ${item.width}${item.steps ? ` x ${item.steps}` : ""} ft`}
                 </Text>
                 <View style={{ flexDirection: "row", gap: 20 }}>
                   <Ionicons name="pencil" size={20} />
