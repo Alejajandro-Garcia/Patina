@@ -48,6 +48,7 @@ export default function MeasurementsForm() {
   const { handleSubmit, reset } = methods;
   const [draftAreas, setDraftAreas] = useState<AreaType[]>(areas);
   const [deleteIndex, setDeleteIndex] = useState<number>();
+  const [editingIndex, setEditingIndex] = useState<number>();
   const [visibleModal, setVisibleModal] = useState(false);
 
   return (
@@ -129,19 +130,23 @@ export default function MeasurementsForm() {
                 callbackFunction={() => {
                   reset(defaultValues);
                   setHasSteps(false);
+                  setEditingIndex(undefined);
                   Keyboard.dismiss();
                 }}
               />
               <ActionButton
-                title="Add"
+                title={editingIndex !== undefined ? "Save" : "Add"}
                 iconName="add-circle"
                 callbackFunction={handleSubmit((data) => {
-                  setDraftAreas((prev) => [
-                    ...prev,
-                    stripEmpty(data, hasSteps),
-                  ]);
+                  const entry = stripEmpty(data, hasSteps);
+                  setDraftAreas((prev) =>
+                    editingIndex !== undefined
+                      ? prev.map((a, i) => (i === editingIndex ? entry : a))
+                      : [...prev, entry],
+                  );
                   reset(defaultValues);
                   setHasSteps(false);
+                  setEditingIndex(undefined);
                   Keyboard.dismiss();
                 })}
               />
@@ -170,18 +175,22 @@ export default function MeasurementsForm() {
                 </Text>
               </View>
             }
-            renderItem={({ item, index }) => (
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  paddingHorizontal: 12,
-                  paddingVertical: 8,
-                  alignItems: "center",
-                  backgroundColor:
-                    index % 2 === 0 ? colors.foreground : colors.input,
-                }}
-              >
+            renderItem={({ item, index }) => {
+              const stripeColor =
+                index % 2 === 0 ? colors.foreground : colors.input;
+              const backgroundColor =
+                index === editingIndex ? "white" : stripeColor;
+              return (
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    paddingHorizontal: 12,
+                    paddingVertical: 8,
+                    alignItems: "center",
+                    backgroundColor,
+                  }}
+                >
                 <Text
                   style={{
                     fontFamily: fonts.semiBold,
@@ -208,7 +217,13 @@ export default function MeasurementsForm() {
                     gap: 10,
                   }}
                 >
-                  <TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => {
+                      reset(item);
+                      setHasSteps(!!item.steps);
+                      setEditingIndex(index);
+                    }}
+                  >
                     <Ionicons name="pencil" size={20} />
                   </TouchableOpacity>
                   <TouchableOpacity
@@ -220,8 +235,9 @@ export default function MeasurementsForm() {
                     <Ionicons name="trash" size={20} />
                   </TouchableOpacity>
                 </View>
-              </View>
-            )}
+                </View>
+              );
+            }}
           />
           <View style={styles.actions}>
             <ActionButton

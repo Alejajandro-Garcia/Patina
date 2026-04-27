@@ -82,7 +82,7 @@ export const MeasurementCard = () => {
           >
             {measurements.map((area, index) => (
               <View
-                key={area.name}
+                key={index}
                 style={[
                   styles.row,
                   {
