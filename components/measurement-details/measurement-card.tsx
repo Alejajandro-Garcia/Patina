@@ -123,8 +123,8 @@ export const MeasurementCard = () => {
               {totalSqFt} ft²
             </Text>
             <ActionButton
-              title="Add"
-              iconName="add-circle"
+              title="Edit"
+              iconName="pencil"
               callbackFunction={() =>
                 router.push("/measurement/form-pages/measurements-form")
               }
