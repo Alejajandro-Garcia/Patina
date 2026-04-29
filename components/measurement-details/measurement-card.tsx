@@ -96,13 +96,21 @@ export const MeasurementCard = () => {
                     fontFamily: fonts.semiBold,
                     fontSize: 16,
                     width: 150,
+                    margin: 5,
                   }}
                   numberOfLines={1}
                   ellipsizeMode="tail"
                 >
                   {area.name}
                 </Text>
-                <Text style={{ fontFamily: fonts.regular, fontSize: 16 }}>
+                <Text
+                  style={{
+                    fontFamily: fonts.regular,
+                    fontSize: 16,
+                    flex: 1,
+                    justifyContent: "flex-start",
+                  }}
+                >
                   {area.length}' x {area.width}'
                   {area.steps && ` x ${area.steps}`}
                 </Text>
