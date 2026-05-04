@@ -37,6 +37,7 @@ export const LabeledInput = ({
         keyboardType={number ? "numeric" : "default"}
         value={value}
         onChangeText={setValue}
+        maxLength={!textArea ? 50 : 150}
       />
     </View>
   );
