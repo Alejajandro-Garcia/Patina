@@ -34,7 +34,7 @@ export const LabeledInput = ({
         ]}
         multiline={textArea}
         numberOfLines={textArea ? 3 : 1}
-        keyboardType={number ? "numeric" : "default"}
+        keyboardType={number ? "decimal-pad" : "default"}
         value={value}
         onChangeText={setValue}
         maxLength={!textArea ? 50 : 150}
