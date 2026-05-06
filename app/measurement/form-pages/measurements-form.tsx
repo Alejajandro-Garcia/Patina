@@ -67,12 +67,18 @@ export default function MeasurementsForm() {
     resolver: zodResolver(AreaFormSchema),
     defaultValues,
   });
-  const { handleSubmit, reset, control } = methods;
+  const {
+    handleSubmit,
+    reset,
+    control,
+    formState: { isDirty },
+  } = methods;
   const hasSteps = useWatch({ control, name: "hasSteps" });
   const [draftAreas, setDraftAreas] = useState<AreaType[]>(areas);
   const [deleteIndex, setDeleteIndex] = useState<number>();
   const [editingIndex, setEditingIndex] = useState<number>();
   const [visibleModal, setVisibleModal] = useState(false);
+  const [unsavedVisible, setUnsavedVisible] = useState(false);
 
   const onSubmit = (data: AreaFormType) => {
     const entry = toAreaType(data);
@@ -86,9 +92,17 @@ export default function MeasurementsForm() {
     Keyboard.dismiss();
   };
 
+  const onGoBack = () => {
+    if (isDirty || JSON.stringify(draftAreas) !== JSON.stringify(areas)) {
+      setUnsavedVisible(true);
+    } else {
+      router.back();
+    }
+  };
+
   return (
     <FormProvider {...methods}>
-      <PatinaPage>
+      <PatinaPage goBackCallBack={onGoBack}>
         <ConfirmationModal
           visible={visibleModal}
           title="Delete area?"
@@ -99,6 +113,16 @@ export default function MeasurementsForm() {
               draftAreas.filter((_, index) => index !== deleteIndex),
             );
             setVisibleModal(false);
+          }}
+        />
+        <ConfirmationModal
+          visible={unsavedVisible}
+          title="Unsaved changes"
+          message="You have unsaved changes. Are you sure you want to discard?"
+          onClose={() => setUnsavedVisible(false)}
+          onConfirm={() => {
+            setUnsavedVisible(false);
+            router.back();
           }}
         />
         <View style={styles.content}>
@@ -267,7 +291,7 @@ export default function MeasurementsForm() {
             <ActionButton
               title="Cancel"
               iconName="close"
-              callbackFunction={() => router.back()}
+              callbackFunction={onGoBack}
             />
           </View>
         </View>

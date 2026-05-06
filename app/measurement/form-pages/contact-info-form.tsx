@@ -48,6 +48,11 @@ export default function ContactInfoForm() {
   } = methods;
   const [confirmationVisible, setConfirmationVisible] = useState(false);
 
+  const onGoBack = () => {
+    if (isDirty) setConfirmationVisible(true);
+    else router.back();
+  };
+
   return (
     <FormProvider {...methods}>
       <ConfirmationModal
@@ -60,7 +65,7 @@ export default function ContactInfoForm() {
           router.back();
         }}
       />
-      <PatinaPage>
+      <PatinaPage goBackCallBack={onGoBack}>
         <KeyboardAwareScrollView
           contentContainerStyle={styles.content}
           keyboardShouldPersistTaps="handled"
@@ -107,13 +112,7 @@ export default function ContactInfoForm() {
             <ActionButton
               title="Cancel"
               iconName="close"
-              callbackFunction={() => {
-                if (isDirty) {
-                  setConfirmationVisible(true);
-                } else {
-                  router.back();
-                }
-              }}
+              callbackFunction={onGoBack}
             />
           </View>
         </KeyboardAwareScrollView>

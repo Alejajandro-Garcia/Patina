@@ -88,6 +88,11 @@ export default function NotesForm() {
     router.back();
   };
 
+  const onGoBack = () => {
+    if (isDirty) setConfirmationVisible(true);
+    else router.back();
+  };
+
   return (
     <FormProvider {...methods}>
       <ConfirmationModal
@@ -100,7 +105,7 @@ export default function NotesForm() {
           router.back();
         }}
       />
-      <PatinaPage>
+      <PatinaPage goBackCallBack={onGoBack}>
         <KeyboardAwareScrollView
           contentContainerStyle={styles.content}
           keyboardShouldPersistTaps="handled"
@@ -182,13 +187,7 @@ export default function NotesForm() {
             <ActionButton
               title="Cancel"
               iconName="close"
-              callbackFunction={() => {
-                if (isDirty) {
-                  setConfirmationVisible(true);
-                } else {
-                  router.back();
-                }
-              }}
+              callbackFunction={onGoBack}
             />
           </View>
         </KeyboardAwareScrollView>
