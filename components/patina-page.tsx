@@ -5,8 +5,9 @@ import { Header } from "./header";
 
 interface PatinaPageProps {
   children: ReactNode;
+  goBackCallBack?: () => void;
 }
-export const PatinaPage = ({ children }: PatinaPageProps) => {
+export const PatinaPage = ({ children, goBackCallBack }: PatinaPageProps) => {
   return (
     <SafeAreaView
       style={{
@@ -14,7 +15,7 @@ export const PatinaPage = ({ children }: PatinaPageProps) => {
         backgroundColor: colors.background,
       }}
     >
-      <Header />
+      <Header goBackCallBack={goBackCallBack} />
       {children}
     </SafeAreaView>
   );

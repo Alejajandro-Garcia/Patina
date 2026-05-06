@@ -23,7 +23,7 @@ export const MeasurementDetails = ({
       <ConfirmationModal
         visible={confirmationModalVisible}
         title="Unsaved changes"
-        message="You have unsaved changes. Are you sure you want to discard?"
+        message="Any unsaved changes will be discarded, are you sure?"
         onClose={() => setConfirmationModalVisible(false)}
         onConfirm={() => {
           setConfirmationModalVisible(false);

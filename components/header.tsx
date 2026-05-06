@@ -2,7 +2,12 @@ import { colors } from "@/theme/colors";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { TouchableOpacity, View } from "react-native";
-export const Header = () => {
+
+interface HeaderProps {
+  goBackCallBack?: () => void;
+}
+
+export const Header = ({ goBackCallBack }: HeaderProps) => {
   const router = useRouter();
 
   return (
@@ -18,8 +23,9 @@ export const Header = () => {
     >
       {router.canGoBack() && (
         <TouchableOpacity
-          onPress={(e) => {
-            router.back();
+          onPress={() => {
+            if (goBackCallBack) goBackCallBack();
+            else router.back();
           }}
         >
           <Ionicons
@@ -31,7 +37,7 @@ export const Header = () => {
       )}
       {!router.canGoBack() && (
         <TouchableOpacity
-          onPress={(e) => {
+          onPress={() => {
             router.push({ pathname: "/settings/settings" });
           }}
         >
