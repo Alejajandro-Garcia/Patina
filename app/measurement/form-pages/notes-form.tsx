@@ -3,7 +3,12 @@ import { ConfirmationModal } from "@/components/confirmation-modal";
 import { FormLabeledInput } from "@/components/form-labeled-input";
 import { PatinaPage } from "@/components/patina-page";
 import useMeasurementDetailsStore from "@/stores/use-measurement-details-store";
-import { NotesType } from "@/types/measurementInfo";
+import {
+  NotesFormSchema,
+  NotesFormType,
+  NotesType,
+} from "@/types/measurementInfo";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
@@ -11,12 +16,27 @@ import { StyleSheet, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 import { useShallow } from "zustand/react/shallow";
 
-const stripEmpty = (data: NotesType): NotesType => {
+const defaultFormValues: NotesFormType = {
+  productInfo: "",
+  toiletRnR: "",
+  furnitureRnR: "",
+  floorPrep: "",
+  appliancesRnR: "",
+  pullUpAndDisposal: "",
+  baseboards: "",
+  moldings: { endcaps: "", tMoldings: "", reducers: "" },
+};
+
+const toNotesType = (data: NotesFormType): NotesType => {
   const { productInfo, moldings, ...numerics } = data;
   const filteredNumerics = Object.fromEntries(
-    Object.entries(numerics).filter(([, v]) => v),
+    Object.entries(numerics)
+      .filter(([, v]) => v)
+      .map(([k, v]) => [k, Number(v)]),
   );
-  const moldingEntries = Object.entries(moldings ?? {}).filter(([, v]) => v);
+  const moldingEntries = Object.entries(moldings)
+    .filter(([, v]) => v)
+    .map(([k, v]) => [k, Number(v)]);
   const filteredMoldings = moldingEntries.length
     ? Object.fromEntries(moldingEntries)
     : undefined;
@@ -27,9 +47,22 @@ const stripEmpty = (data: NotesType): NotesType => {
   };
 };
 
-const returnDefaultValues = (notes: NotesType | null): NotesType => {
-  if (notes) return notes;
-  return { productInfo: "" };
+const toNotesForm = (notes: NotesType | null): NotesFormType => {
+  if (!notes) return defaultFormValues;
+  return {
+    productInfo: notes.productInfo,
+    toiletRnR: String(notes.toiletRnR ?? ""),
+    furnitureRnR: String(notes.furnitureRnR ?? ""),
+    floorPrep: String(notes.floorPrep ?? ""),
+    appliancesRnR: String(notes.appliancesRnR ?? ""),
+    pullUpAndDisposal: String(notes.pullUpAndDisposal ?? ""),
+    baseboards: String(notes.baseboards ?? ""),
+    moldings: {
+      endcaps: String(notes.moldings?.endcaps ?? ""),
+      tMoldings: String(notes.moldings?.tMoldings ?? ""),
+      reducers: String(notes.moldings?.reducers ?? ""),
+    },
+  };
 };
 
 export default function NotesForm() {
@@ -40,14 +73,20 @@ export default function NotesForm() {
       setNotes: state.setNotes,
     })),
   );
-  const methods = useForm<NotesType>({
-    defaultValues: returnDefaultValues(notes),
+  const methods = useForm<NotesFormType>({
+    resolver: zodResolver(NotesFormSchema),
+    defaultValues: toNotesForm(notes),
   });
   const {
     handleSubmit,
     formState: { isDirty },
   } = methods;
   const [confirmationVisible, setConfirmationVisible] = useState(false);
+
+  const onSubmit = (data: NotesFormType) => {
+    setNotes(toNotesType(data));
+    router.back();
+  };
 
   return (
     <FormProvider {...methods}>
@@ -138,10 +177,7 @@ export default function NotesForm() {
             <ActionButton
               title="Done"
               iconName="add-circle"
-              callbackFunction={handleSubmit((data) => {
-                setNotes(stripEmpty(data));
-                router.back();
-              })}
+              callbackFunction={handleSubmit(onSubmit)}
             />
             <ActionButton
               title="Cancel"
