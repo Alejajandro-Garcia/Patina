@@ -1,55 +1,90 @@
 import { ActionButton } from "@/components/action-button";
 import { ConfirmationModal } from "@/components/confirmation-modal";
 import { FormLabeledInput } from "@/components/form-labeled-input";
+import { FormSwitch } from "@/components/form-switch";
 import { PatinaPage } from "@/components/patina-page";
 import useMeasurementDetailsStore from "@/stores/use-measurement-details-store";
 import { colors } from "@/theme/colors";
 import { fonts } from "@/theme/fonts";
-import { AreaType } from "@/types/measurementInfo";
+import {
+  AreaFormType,
+  AreaFormSchema,
+  AreaType,
+} from "@/types/measurementInfo";
 import { Ionicons } from "@expo/vector-icons";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { FormProvider, useForm } from "react-hook-form";
+import { FormProvider, useForm, useWatch } from "react-hook-form";
 import {
   FlatList,
   Keyboard,
   Pressable,
   StyleSheet,
-  Switch,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
 import { useShallow } from "zustand/react/shallow";
 
-const defaultValues: AreaType = {
+const defaultValues: AreaFormType = {
   name: "",
-  length: 0,
-  width: 0,
+  length: "",
+  width: "",
+  hasSteps: false,
+  steps: "",
 };
 
-const stripEmpty = (data: AreaType, hasSteps: boolean): AreaType => {
-  const { name, length, width, steps } = data;
-  return hasSteps && steps
-    ? { name, length, width, steps }
-    : { name, length, width };
+const toAreaType = (data: AreaFormType): AreaType => {
+  const result: AreaType = {
+    name: data.name,
+    length: Number(data.length),
+    width: Number(data.width),
+  };
+  if (data.hasSteps) {
+    result.steps = Number(data.steps);
+  }
+  return result;
 };
+
+const toAreaForm = (area: AreaType): AreaFormType => ({
+  name: area.name,
+  length: String(area.length),
+  width: String(area.width),
+  hasSteps: area.steps !== undefined,
+  steps: String(area.steps ?? ""),
+});
 
 export default function MeasurementsForm() {
   const router = useRouter();
-  const [hasSteps, setHasSteps] = useState(false);
   const { areas, setAreas } = useMeasurementDetailsStore(
     useShallow((state) => ({
       areas: state.areas,
       setAreas: state.setAreas,
     })),
   );
-  const methods = useForm<AreaType>({ defaultValues });
-  const { handleSubmit, reset } = methods;
+  const methods = useForm<AreaFormType>({
+    resolver: zodResolver(AreaFormSchema),
+    defaultValues,
+  });
+  const { handleSubmit, reset, control } = methods;
+  const hasSteps = useWatch({ control, name: "hasSteps" });
   const [draftAreas, setDraftAreas] = useState<AreaType[]>(areas);
   const [deleteIndex, setDeleteIndex] = useState<number>();
   const [editingIndex, setEditingIndex] = useState<number>();
   const [visibleModal, setVisibleModal] = useState(false);
+
+  const onSubmit = (data: AreaFormType) => {
+    const entry = toAreaType(data);
+    setDraftAreas((prev) =>
+      editingIndex !== undefined
+        ? prev.map((a, i) => (i === editingIndex ? entry : a))
+        : [...prev, entry],
+    );
+    reset(defaultValues);
+    setEditingIndex(undefined);
+    Keyboard.dismiss();
+  };
 
   return (
     <FormProvider {...methods}>
@@ -90,13 +125,7 @@ export default function MeasurementsForm() {
                     }}
                   >
                     <Text style={{ fontFamily: fonts.semiBold }}>Stairs</Text>
-                    <Switch
-                      trackColor={{ false: "#767577", true: colors.input }}
-                      thumbColor={colors.foreground}
-                      ios_backgroundColor="#3e3e3e"
-                      value={hasSteps}
-                      onValueChange={setHasSteps}
-                    />
+                    <FormSwitch name="hasSteps" />
                   </View>
                 </View>
               </View>
@@ -129,7 +158,6 @@ export default function MeasurementsForm() {
                 iconName="play-back"
                 callbackFunction={() => {
                   reset(defaultValues);
-                  setHasSteps(false);
                   setEditingIndex(undefined);
                   Keyboard.dismiss();
                 }}
@@ -137,18 +165,7 @@ export default function MeasurementsForm() {
               <ActionButton
                 title={editingIndex !== undefined ? "Save" : "Add"}
                 iconName="add-circle"
-                callbackFunction={handleSubmit((data) => {
-                  const entry = stripEmpty(data, hasSteps);
-                  setDraftAreas((prev) =>
-                    editingIndex !== undefined
-                      ? prev.map((a, i) => (i === editingIndex ? entry : a))
-                      : [...prev, entry],
-                  );
-                  reset(defaultValues);
-                  setHasSteps(false);
-                  setEditingIndex(undefined);
-                  Keyboard.dismiss();
-                })}
+                callbackFunction={handleSubmit(onSubmit)}
               />
             </View>
           </Pressable>
@@ -219,8 +236,7 @@ export default function MeasurementsForm() {
                 >
                   <TouchableOpacity
                     onPress={() => {
-                      reset(item);
-                      setHasSteps(!!item.steps);
+                      reset(toAreaForm(item));
                       setEditingIndex(index);
                     }}
                   >
