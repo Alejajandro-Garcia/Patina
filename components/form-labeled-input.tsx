@@ -24,8 +24,8 @@ export const FormLabeledInput = ({
       render={({ field: { onChange, value }, fieldState: { error } }) => (
         <LabeledInput
           {...rest}
-          value={rest.number ? String(value ?? "") : (value ?? "")}
-          setValue={rest.number ? (v) => onChange(Number(v) || 0) : onChange}
+          value={value ?? ""}
+          setValue={onChange}
           error={!!error}
         />
       )}
