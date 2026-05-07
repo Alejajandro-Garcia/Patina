@@ -6,17 +6,9 @@ export default appSchema({
     tableSchema({
       name: "measurements",
       columns: [
-        { name: "measurement_id", type: "string" },
         { name: "name", type: "string" },
         { name: "total_sqft", type: "number" },
-        { name: "date", type: "string" },
-      ],
-    }),
-    tableSchema({
-      name: "measurement_infos",
-      columns: [
-        { name: "measurement_id", type: "string", isIndexed: true },
-        { name: "name", type: "string" },
+        { name: "date", type: "number" },
         { name: "contact_info", type: "string" },
         { name: "areas", type: "string" },
         { name: "notes", type: "string" },

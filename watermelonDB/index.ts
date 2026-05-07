@@ -3,7 +3,6 @@ import SQLiteAdapter from "@nozbe/watermelondb/adapters/sqlite";
 
 import migrations from "./migrations";
 import Measurement from "./model/measurement";
-import MeasurementInfo from "./model/measurementInfo";
 import schema from "./schema";
 // import Post from './model/Post' // ⬅️ You'll import your Models here
 
@@ -26,7 +25,7 @@ const adapter = new SQLiteAdapter({
 // Then, make a Watermelon database from it!
 const database = new Database({
   adapter,
-  modelClasses: [Measurement, MeasurementInfo],
+  modelClasses: [Measurement],
 });
 
 database

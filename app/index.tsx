@@ -6,6 +6,7 @@ import { colors } from "@/theme/colors";
 import { fonts } from "@/theme/fonts";
 import database from "@/watermelonDB";
 import MeasurementModel from "@/watermelonDB/model/measurement";
+import { Q } from "@nozbe/watermelondb";
 import { withObservables } from "@nozbe/watermelondb/react";
 import { useRouter } from "expo-router";
 import Fuse from "fuse.js";
@@ -103,7 +104,7 @@ function Index({ measurements }: { measurements: MeasurementModel[] }) {
 const enhance = withObservables([], () => ({
   measurements: database
     .get<MeasurementModel>("measurements")
-    .query()
+    .query(Q.sortBy("date", Q.desc))
     .observe(),
 }));
 

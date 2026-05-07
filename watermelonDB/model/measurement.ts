@@ -1,12 +1,20 @@
-import { Model, Relation } from "@nozbe/watermelondb";
-import { date, field, relation, text } from "@nozbe/watermelondb/decorators";
-import MeasurementInfo from "./measurementInfo";
+import type {
+  AreaType,
+  ContactInfoType,
+  NotesType,
+} from "@/types/measurementInfo";
+import { Model } from "@nozbe/watermelondb";
+import { date, field, json, text } from "@nozbe/watermelondb/decorators";
+
+const sanitizeJson = (raw: unknown) => raw;
+const sanitizeAreas = (raw: unknown) => (Array.isArray(raw) ? raw : []);
 
 export default class Measurement extends Model {
   static table = "measurements";
-  @relation("measurement_info", "measurement_id") info: Relation<MeasurementInfo>;
-  @field("measurement_id") measurementId: string;
   @text("name") name: string;
   @field("total_sqft") totalSqft: number;
   @date("date") date: Date;
+  @json("contact_info", sanitizeJson) contactInfo: ContactInfoType | null;
+  @json("areas", sanitizeAreas) areas: AreaType[];
+  @json("notes", sanitizeJson) notes: NotesType | null;
 }
