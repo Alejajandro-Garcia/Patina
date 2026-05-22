@@ -1,6 +1,9 @@
+import { formatAreaString } from "@/helpers/format-units";
 import useMeasurementDetailsStore from "@/stores/use-measurement-details-store";
+import useSettingsStore from "@/stores/use-settings-store";
 import { colors } from "@/theme/colors";
 import { fonts } from "@/theme/fonts";
+import { measurementUnit } from "@/types/units";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useMemo, useState } from "react";
@@ -24,6 +27,7 @@ export const MeasurementCard = () => {
       setMeasurements: state.setAreas,
     })),
   );
+  const { units } = useSettingsStore();
   const [deleteIndex, setDeleteIndex] = useState<number | null>(null);
   const [visibleConfirmationModal, setConfirmationModal] =
     useState<boolean>(false);
@@ -111,8 +115,7 @@ export const MeasurementCard = () => {
                     justifyContent: "flex-start",
                   }}
                 >
-                  {area.length}' x {area.width}'
-                  {area.steps && ` x ${area.steps}`}
+                  {formatAreaString(area, units)}
                 </Text>
                 <TouchableOpacity
                   onPress={() => {
@@ -128,7 +131,7 @@ export const MeasurementCard = () => {
           <View style={styles.footer}>
             <Text style={styles.important}>Total: </Text>
             <Text style={[styles.important, { fontSize: 28 }]}>
-              {totalSqFt} ft²
+              {totalSqFt} {measurementUnit[units]}
             </Text>
             <ActionButton
               title="Edit"

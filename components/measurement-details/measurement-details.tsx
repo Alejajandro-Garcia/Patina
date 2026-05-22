@@ -1,6 +1,6 @@
 import { ActionButton } from "@/components/action-button";
 import { ConfirmationModal } from "@/components/confirmation-modal";
-import { MeasurementInfoType } from "@/types/measurementInfo";
+import { MeasurementInfoType } from "@/types/measurement-info";
 import { router } from "expo-router";
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";

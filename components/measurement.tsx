@@ -1,5 +1,7 @@
+import useSettingsStore from "@/stores/use-settings-store";
 import { colors } from "@/theme/colors";
 import { fonts } from "@/theme/fonts";
+import { measurementUnit } from "@/types/units";
 import MeasurementModel from "@/watermelonDB/model/measurement";
 import { Ionicons } from "@expo/vector-icons";
 import { withObservables } from "@nozbe/watermelondb/react";
@@ -8,6 +10,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 function Measurement({ measurement }: { measurement: MeasurementModel }) {
   const router = useRouter();
+  const { units } = useSettingsStore();
   return (
     <TouchableOpacity
       style={styles.container}
@@ -30,7 +33,7 @@ function Measurement({ measurement }: { measurement: MeasurementModel }) {
           {measurement.name}
         </Text>
         <Text style={{ fontFamily: fonts.semiBold, fontSize: 16 }}>
-          {measurement.totalSqft} sqft
+          {measurement.total} {measurementUnit[units]}
         </Text>
         <Text style={{ fontFamily: fonts.semiBold, fontSize: 16 }}>
           {measurement.date.toLocaleDateString()}
