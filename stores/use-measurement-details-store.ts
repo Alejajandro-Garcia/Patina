@@ -3,25 +3,34 @@ import {
   ContactInfoType,
   MeasurementInfoType,
   NotesType,
-} from "@/types/measurementInfo";
+} from "@/types/measurement-info";
 import { create } from "zustand";
 
 interface MeasurementDetailsState extends MeasurementInfoType {
   setContactInfo: (contactInfo: ContactInfoType) => void;
   setAreas: (areas: AreaType[]) => void;
   setNotes: (notes: NotesType) => void;
+  setImperial: (imperial: boolean) => void;
   reset: () => void;
 }
 
 const initialState: Pick<
   MeasurementDetailsState,
-  "measurementID" | "name" | "contactInfo" | "areas" | "notes"
+  | "measurementID"
+  | "name"
+  | "contactInfo"
+  | "areas"
+  | "notes"
+  | "imperial"
+  | "total"
 > = {
   measurementID: "",
   name: "",
   contactInfo: null,
   areas: [],
   notes: null,
+  imperial: true,
+  total: 0,
 };
 
 const useMeasurementDetailsStore = create<MeasurementDetailsState>((set) => ({
@@ -29,6 +38,7 @@ const useMeasurementDetailsStore = create<MeasurementDetailsState>((set) => ({
   setContactInfo: (contactInfo: ContactInfoType) => set({ contactInfo }),
   setAreas: (areas: AreaType[]) => set({ areas }),
   setNotes: (notes: NotesType) => set({ notes }),
+  setImperial: (imperial: boolean) => set({ imperial }),
   reset: () => set({ ...initialState }),
 }));
 
