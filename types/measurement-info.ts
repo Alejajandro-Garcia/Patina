@@ -6,6 +6,8 @@ export type MeasurementInfoType = {
   contactInfo: ContactInfoType | null;
   areas: AreaType[];
   notes: NotesType | null;
+  imperial: boolean;
+  total: number;
 };
 
 export type ContactInfoType = {
