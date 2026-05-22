@@ -7,6 +7,7 @@ import SuccessToast from "@/components/toast-configs/success-toast";
 import useSettingsStore from "@/stores/use-settings-store";
 import { colors } from "@/theme/colors";
 import { fonts } from "@/theme/fonts";
+import { IMPERIAL, METRIC } from "@/types/units";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Keyboard, Pressable, StyleSheet, Text, View } from "react-native";
@@ -14,7 +15,7 @@ import { Toast } from "toastify-react-native";
 import { useShallow } from "zustand/react/shallow";
 
 export default function Settings() {
-  const menuItems = ["Imperial (sqft/in)", "Metric (m/cm)"] as const;
+  const menuItems = [IMPERIAL, METRIC] as const;
   const router = useRouter();
   const { units, setUnits, percentage, setPercentage } = useSettingsStore(
     useShallow((state) => ({
