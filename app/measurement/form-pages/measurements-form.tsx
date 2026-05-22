@@ -3,14 +3,16 @@ import { ConfirmationModal } from "@/components/confirmation-modal";
 import { FormLabeledInput } from "@/components/form-labeled-input";
 import { FormSwitch } from "@/components/form-switch";
 import { PatinaPage } from "@/components/patina-page";
+import { formatAreaString } from "@/helpers/format-units";
 import useMeasurementDetailsStore from "@/stores/use-measurement-details-store";
+import useSettingsStore from "@/stores/use-settings-store";
 import { colors } from "@/theme/colors";
 import { fonts } from "@/theme/fonts";
 import {
-  AreaFormType,
   AreaFormSchema,
+  AreaFormType,
   AreaType,
-} from "@/types/measurementInfo";
+} from "@/types/measurement-info";
 import { Ionicons } from "@expo/vector-icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "expo-router";
@@ -57,6 +59,7 @@ const toAreaForm = (area: AreaType): AreaFormType => ({
 
 export default function MeasurementsForm() {
   const router = useRouter();
+  const { units } = useSettingsStore();
   const { areas, setAreas } = useMeasurementDetailsStore(
     useShallow((state) => ({
       areas: state.areas,
@@ -232,49 +235,49 @@ export default function MeasurementsForm() {
                     backgroundColor,
                   }}
                 >
-                <Text
-                  style={{
-                    fontFamily: fonts.semiBold,
-                    fontSize: 16,
-                    width: 150,
-                  }}
-                  numberOfLines={1}
-                  ellipsizeMode="tail"
-                >
-                  {item.name}
-                </Text>
-                <Text
-                  style={{
-                    fontFamily: fonts.semiBold,
-                    fontSize: 16,
-                    flex: 1,
-                  }}
-                >
-                  {`${item.length} x ${item.width}${item.steps ? ` x ${item.steps}` : ""} ft`}
-                </Text>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    gap: 10,
-                  }}
-                >
-                  <TouchableOpacity
-                    onPress={() => {
-                      reset(toAreaForm(item));
-                      setEditingIndex(index);
+                  <Text
+                    style={{
+                      fontFamily: fonts.semiBold,
+                      fontSize: 16,
+                      width: 150,
+                    }}
+                    numberOfLines={1}
+                    ellipsizeMode="tail"
+                  >
+                    {item.name}
+                  </Text>
+                  <Text
+                    style={{
+                      fontFamily: fonts.semiBold,
+                      fontSize: 16,
+                      flex: 1,
                     }}
                   >
-                    <Ionicons name="pencil" size={20} />
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={() => {
-                      setVisibleModal(true);
-                      setDeleteIndex(index);
+                    {formatAreaString(item, units)}
+                  </Text>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      gap: 10,
                     }}
                   >
-                    <Ionicons name="trash" size={20} />
-                  </TouchableOpacity>
-                </View>
+                    <TouchableOpacity
+                      onPress={() => {
+                        reset(toAreaForm(item));
+                        setEditingIndex(index);
+                      }}
+                    >
+                      <Ionicons name="pencil" size={20} />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() => {
+                        setVisibleModal(true);
+                        setDeleteIndex(index);
+                      }}
+                    >
+                      <Ionicons name="trash" size={20} />
+                    </TouchableOpacity>
+                  </View>
                 </View>
               );
             }}

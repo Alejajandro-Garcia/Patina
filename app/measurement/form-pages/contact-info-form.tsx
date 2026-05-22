@@ -3,7 +3,7 @@ import { ConfirmationModal } from "@/components/confirmation-modal";
 import { FormLabeledInput } from "@/components/form-labeled-input";
 import { PatinaPage } from "@/components/patina-page";
 import useMeasurementDetailsStore from "@/stores/use-measurement-details-store";
-import { ContactInfoType } from "@/types/measurementInfo";
+import { ContactInfoType } from "@/types/measurement-info";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
