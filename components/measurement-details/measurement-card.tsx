@@ -1,3 +1,4 @@
+import { getAreaSqFt, roundSqFt } from "@/helpers/area-calculations";
 import { formatAreaString } from "@/helpers/format-units";
 import useMeasurementDetailsStore from "@/stores/use-measurement-details-store";
 import useSettingsStore from "@/stores/use-settings-store";
@@ -6,7 +7,7 @@ import { fonts } from "@/theme/fonts";
 import { measurementUnit } from "@/types/units";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import {
   Image,
   ScrollView,
@@ -21,27 +22,19 @@ import { ConfirmationModal } from "../confirmation-modal";
 
 export const MeasurementCard = () => {
   const router = useRouter();
-  const { measurements, setMeasurements } = useMeasurementDetailsStore(
-    useShallow((state) => ({
-      measurements: state.areas,
-      setMeasurements: state.setAreas,
-    })),
-  );
+  const { measurements, setMeasurements, total, setTotal } =
+    useMeasurementDetailsStore(
+      useShallow((state) => ({
+        measurements: state.areas,
+        setMeasurements: state.setAreas,
+        total: state.total,
+        setTotal: state.setTotal,
+      })),
+    );
   const { units } = useSettingsStore();
   const [deleteIndex, setDeleteIndex] = useState<number | null>(null);
   const [visibleConfirmationModal, setConfirmationModal] =
     useState<boolean>(false);
-
-  const totalSqFt = useMemo(
-    () =>
-      Math.round(
-        measurements.reduce(
-          (sum, area) => sum + area.length * area.width * (area.steps ?? 1),
-          0,
-        ) * 100,
-      ) / 100,
-    [measurements],
-  );
 
   return (
     <View style={styles.container}>
@@ -51,9 +44,13 @@ export const MeasurementCard = () => {
         message="Are you sure you want to delete this area?"
         onClose={() => setConfirmationModal(false)}
         onConfirm={() => {
-          setMeasurements(
-            measurements.filter((_, index) => index !== deleteIndex),
-          );
+          if (deleteIndex !== null) {
+            const removed = measurements[deleteIndex];
+            setMeasurements(
+              measurements.filter((_, index) => index !== deleteIndex),
+            );
+            setTotal(roundSqFt(total - getAreaSqFt(removed)));
+          }
           setConfirmationModal(false);
         }}
       />
@@ -131,7 +128,7 @@ export const MeasurementCard = () => {
           <View style={styles.footer}>
             <Text style={styles.important}>Total: </Text>
             <Text style={[styles.important, { fontSize: 28 }]}>
-              {totalSqFt} {measurementUnit[units]}
+              {total} {measurementUnit[units]}
             </Text>
             <ActionButton
               title="Edit"

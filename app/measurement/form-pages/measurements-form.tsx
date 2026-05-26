@@ -3,6 +3,7 @@ import { ConfirmationModal } from "@/components/confirmation-modal";
 import { FormLabeledInput } from "@/components/form-labeled-input";
 import { FormSwitch } from "@/components/form-switch";
 import { PatinaPage } from "@/components/patina-page";
+import { getAreaSqFt, roundSqFt } from "@/helpers/area-calculations";
 import { formatAreaString } from "@/helpers/format-units";
 import useMeasurementDetailsStore from "@/stores/use-measurement-details-store";
 import useSettingsStore from "@/stores/use-settings-store";
@@ -60,10 +61,11 @@ const toAreaForm = (area: AreaType): AreaFormType => ({
 export default function MeasurementsForm() {
   const router = useRouter();
   const { units } = useSettingsStore();
-  const { areas, setAreas } = useMeasurementDetailsStore(
+  const { areas, setAreas, setTotal } = useMeasurementDetailsStore(
     useShallow((state) => ({
       areas: state.areas,
       setAreas: state.setAreas,
+      setTotal: state.setTotal,
     })),
   );
   const methods = useForm<AreaFormType>({
@@ -101,6 +103,20 @@ export default function MeasurementsForm() {
     } else {
       router.back();
     }
+  };
+
+  const onReset = () => {
+    reset(defaultValues);
+    setEditingIndex(undefined);
+    Keyboard.dismiss();
+  };
+
+  const onDone = () => {
+    setAreas(draftAreas);
+    setTotal(
+      roundSqFt(draftAreas.reduce((sum, a) => sum + getAreaSqFt(a), 0)),
+    );
+    router.back();
   };
 
   return (
@@ -183,11 +199,7 @@ export default function MeasurementsForm() {
               <ActionButton
                 title="Reset"
                 iconName="play-back"
-                callbackFunction={() => {
-                  reset(defaultValues);
-                  setEditingIndex(undefined);
-                  Keyboard.dismiss();
-                }}
+                callbackFunction={onReset}
               />
               <ActionButton
                 title={editingIndex !== undefined ? "Save" : "Add"}
@@ -286,10 +298,7 @@ export default function MeasurementsForm() {
             <ActionButton
               title="Done"
               iconName="checkmark-done-circle"
-              callbackFunction={() => {
-                setAreas(draftAreas);
-                router.back();
-              }}
+              callbackFunction={onDone}
             />
             <ActionButton
               title="Cancel"
