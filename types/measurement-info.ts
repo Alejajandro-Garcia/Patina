@@ -10,13 +10,18 @@ export type MeasurementInfoType = {
   total: number;
 };
 
-export type ContactInfoType = {
-  name: string;
-  email?: string;
-  phone?: string;
-  address: string;
-  date: string;
-};
+export const ContactInfoSchema = z.object({
+  name: z.string().min(1),
+  email: z.string().optional(),
+  phone: z.string().optional(),
+  address: z.string().min(1),
+  date: z
+    .string()
+    .min(1)
+    .regex(/^\d{2}([/-])\d{2}\1\d{4}$/, "Use MM/DD/YYYY or MM-DD-YYYY"),
+});
+
+export type ContactInfoType = z.infer<typeof ContactInfoSchema>;
 
 export type AreaType = {
   name: string;
@@ -81,3 +86,10 @@ export const NotesFormSchema = z.object({
 });
 
 export type NotesFormType = z.infer<typeof NotesFormSchema>;
+
+export const measurementsFormSchema = z.object({
+  name: z.string().min(1),
+  notes: NotesFormSchema,
+  areas: AreaFormSchema,
+  contactInfo: ContactInfoSchema,
+});

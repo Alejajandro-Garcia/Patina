@@ -3,7 +3,8 @@ import { ConfirmationModal } from "@/components/confirmation-modal";
 import { FormLabeledInput } from "@/components/form-labeled-input";
 import { PatinaPage } from "@/components/patina-page";
 import useMeasurementDetailsStore from "@/stores/use-measurement-details-store";
-import { ContactInfoType } from "@/types/measurement-info";
+import { ContactInfoSchema, ContactInfoType } from "@/types/measurement-info";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
@@ -41,6 +42,7 @@ export default function ContactInfoForm() {
   );
   const methods = useForm<ContactInfoType>({
     defaultValues: returnDefaultValues(contactInfo),
+    resolver: zodResolver(ContactInfoSchema),
   });
   const {
     handleSubmit,
