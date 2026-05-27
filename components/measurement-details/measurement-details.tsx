@@ -59,6 +59,7 @@ export const MeasurementDetails = ({
       });
     }
     Toast.show(SuccessToast);
+    router.back();
     return;
   };
 
