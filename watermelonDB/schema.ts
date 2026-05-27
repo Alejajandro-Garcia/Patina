@@ -12,6 +12,7 @@ export default appSchema({
         { name: "contact_info", type: "string" },
         { name: "areas", type: "string" },
         { name: "notes", type: "string" },
+        { name: "imperial", type: "boolean" },
       ],
     }),
   ],

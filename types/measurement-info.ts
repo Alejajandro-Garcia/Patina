@@ -10,6 +10,11 @@ export type MeasurementInfoType = {
   total: number;
 };
 
+export type MeasurementDBType = Omit<MeasurementInfoType, "measurementID"> & {
+  contactInfo: ContactInfoType;
+  notes: NotesType;
+};
+
 export const ContactInfoSchema = z.object({
   name: z.string().min(1),
   email: z.string().optional(),
@@ -86,10 +91,3 @@ export const NotesFormSchema = z.object({
 });
 
 export type NotesFormType = z.infer<typeof NotesFormSchema>;
-
-export const measurementsFormSchema = z.object({
-  name: z.string().min(1),
-  notes: NotesFormSchema,
-  areas: AreaFormSchema,
-  contactInfo: ContactInfoSchema,
-});
