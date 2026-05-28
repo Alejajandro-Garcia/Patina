@@ -52,7 +52,10 @@ export const MeasurementDetails = ({
       return;
     }
     if (measurement) {
-      updateMeasurement(validSubmit, id);
+      updateMeasurement(
+        { ...validSubmit, name: validSubmit.contactInfo.name },
+        id,
+      );
     } else {
       addMeasurement({
         ...validSubmit,
