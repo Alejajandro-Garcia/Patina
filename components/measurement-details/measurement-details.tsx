@@ -88,6 +88,7 @@ export const MeasurementDetails = ({
         onClose={() => setConfirmationModalVisible(false)}
         onConfirm={() => {
           setConfirmationModalVisible(false);
+          reset();
           router.back();
         }}
       />
