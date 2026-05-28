@@ -31,7 +31,7 @@ export const MeasurementDetails = ({
     useState(false);
 
   const { units } = useSettingsStore();
-  const { areas, contactInfo, notes, id, name, total, imperial } =
+  const { areas, contactInfo, notes, id, name, total, imperial, reset } =
     useMeasurementDetailsStore(
       useShallow((state) => ({
         areas: state.areas,
@@ -41,6 +41,7 @@ export const MeasurementDetails = ({
         name: state.name,
         total: state.total,
         imperial: state.imperial,
+        reset: state.reset,
       })),
     );
 
@@ -61,6 +62,7 @@ export const MeasurementDetails = ({
     }
     Toast.show(SuccessToast);
     router.back();
+    reset();
     return;
   };
 
