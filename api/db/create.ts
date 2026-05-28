@@ -1,3 +1,4 @@
+import { dateStringToDBDate } from "@/helpers/format-date";
 import { MeasurementDBType } from "@/types/measurement-info";
 import database from "@/watermelonDB";
 import Measurement from "@/watermelonDB/model/measurement";
@@ -12,7 +13,9 @@ const addMeasurement = async (measurement: MeasurementDBType) => {
         createdMeasurement.contactInfo = measurement.contactInfo;
         createdMeasurement.areas = measurement.areas;
         createdMeasurement.imperial = measurement.imperial;
-        createdMeasurement.date = new Date(measurement.contactInfo.date);
+        createdMeasurement.date = dateStringToDBDate(
+          measurement.contactInfo.date,
+        );
         createdMeasurement.total = measurement.total;
       });
   });
