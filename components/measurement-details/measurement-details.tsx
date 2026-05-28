@@ -44,6 +44,7 @@ export const MeasurementDetails = ({
       })),
     );
 
+  //TODO CHANGE THIS BASED ON ID RATHER THAN THE MEASUREMENT ITSELF
   const handleSubmit = () => {
     const validSubmit = validatedSubmit();
     if (!validSubmit) {

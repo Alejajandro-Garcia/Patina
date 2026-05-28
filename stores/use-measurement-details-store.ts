@@ -12,6 +12,7 @@ interface MeasurementDetailsState extends MeasurementInfoType {
   setNotes: (notes: NotesType) => void;
   setImperial: (imperial: boolean) => void;
   setTotal: (total: number) => void;
+  hydrate: (measurement: MeasurementInfoType) => void;
   reset: () => void;
 }
 
@@ -41,6 +42,7 @@ const useMeasurementDetailsStore = create<MeasurementDetailsState>((set) => ({
   setNotes: (notes: NotesType) => set({ notes }),
   setImperial: (imperial: boolean) => set({ imperial }),
   setTotal: (total: number) => set({ total }),
+  hydrate: (measurement: MeasurementInfoType) => set({ ...measurement }),
   reset: () => set({ ...initialState }),
 }));
 

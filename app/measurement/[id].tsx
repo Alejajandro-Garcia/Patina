@@ -1,38 +1,44 @@
+import fetchMeasurement from "@/api/db/fetch";
 import { ConfirmationModal } from "@/components/confirmation-modal";
 import { MeasurementDetails } from "@/components/measurement-details/measurement-details";
 import { PatinaPage } from "@/components/patina-page";
+import FailedToast from "@/components/toast-configs/failed-toast";
 import useMeasurementDetailsStore from "@/stores/use-measurement-details-store";
 import { MeasurementInfoType } from "@/types/measurement-info";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, View } from "react-native";
+import { Toast } from "toastify-react-native";
 
 export default function EditMeasurement() {
   const router = useRouter();
   const { id } = useLocalSearchParams<{ id: string }>();
   const reset = useMeasurementDetailsStore((state) => state.reset);
+  const hydrate = useMeasurementDetailsStore((state) => state.hydrate);
+  const [loading, setLoading] = useState(true);
+  const [unsavedVisible, setUnsavedVisible] = useState(false);
   const [measurement, setMeasurement] = useState<MeasurementInfoType | null>(
     null,
   );
-  const [loading, setLoading] = useState(true);
-  const [unsavedVisible, setUnsavedVisible] = useState(false);
 
+  // TODO: CHANGE THE LOGIC OF MEASUREMENT DETAILS TO BE BASED ON ID NOT THE ENTIRE MEASUREMENT ITSELF
   useEffect(() => {
-    // TODO: Replace with actual API call
-    const fetchMeasurement = async () => {
+    const queryMeasurement = async () => {
       try {
-        // const response = await fetch(`/api/measurements/${id}`);
-        // const data = await response.json();
-        // setMeasurement(data);
+        const fetchedMeasurement = await fetchMeasurement(id);
+        hydrate(fetchedMeasurement);
+        setMeasurement(fetchedMeasurement);
+      } catch {
+        Toast.show(FailedToast("Measurement not found"));
+        router.back();
       } finally {
         setLoading(false);
       }
     };
-
-    fetchMeasurement();
+    queryMeasurement();
   }, [id]);
 
-  if (loading) {
+  if (loading && !measurement) {
     return (
       <PatinaPage>
         <View
