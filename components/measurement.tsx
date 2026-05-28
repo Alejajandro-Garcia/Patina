@@ -1,3 +1,4 @@
+import deleteMeasurement from "@/api/db/delete";
 import useSettingsStore from "@/stores/use-settings-store";
 import { colors } from "@/theme/colors";
 import { fonts } from "@/theme/fonts";
@@ -6,52 +7,68 @@ import MeasurementModel from "@/watermelonDB/model/measurement";
 import { Ionicons } from "@expo/vector-icons";
 import { withObservables } from "@nozbe/watermelondb/react";
 import { useRouter } from "expo-router";
+import { useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { ConfirmationModal } from "./confirmation-modal";
 
 function Measurement({ measurement }: { measurement: MeasurementModel }) {
   const router = useRouter();
   const { units } = useSettingsStore();
+  const [confirmationModalVisible, setConfirmationModalVisible] =
+    useState(false);
   return (
-    <TouchableOpacity
-      style={styles.container}
-      onPress={() => router.push(`/measurement/${measurement.id}`)}
-    >
-      <View
-        style={{
-          flex: 2,
-          justifyContent: "space-between",
-          paddingVertical: 10,
+    <>
+      <ConfirmationModal
+        visible={confirmationModalVisible}
+        title="Delete measurement?"
+        message="This is permanent and cannot be reverted."
+        onClose={() => setConfirmationModalVisible(false)}
+        onConfirm={() => {
+          deleteMeasurement(measurement.id);
+          setConfirmationModalVisible(false);
         }}
+      />
+      <TouchableOpacity
+        style={styles.container}
+        onPress={() => router.push(`/measurement/${measurement.id}`)}
       >
-        <Text
+        <View
           style={{
-            fontFamily: fonts.semiBold,
-            fontSize: 24,
+            flex: 2,
+            justifyContent: "space-between",
+            paddingVertical: 10,
           }}
-          numberOfLines={1}
         >
-          {measurement.name}
-        </Text>
-        <Text style={{ fontFamily: fonts.semiBold, fontSize: 16 }}>
-          {measurement.total} {measurementUnit[units]}
-        </Text>
-        <Text style={{ fontFamily: fonts.semiBold, fontSize: 16 }}>
-          {measurement.date.toLocaleDateString()}
-        </Text>
-      </View>
-      <View
-        style={{
-          flex: 1,
-          alignItems: "flex-end",
-          justifyContent: "space-between",
-        }}
-      >
-        <Ionicons name="arrow-forward-circle" size={40} />
-        <TouchableOpacity>
-          <Ionicons name="trash" size={40} />
-        </TouchableOpacity>
-      </View>
-    </TouchableOpacity>
+          <Text
+            style={{
+              fontFamily: fonts.semiBold,
+              fontSize: 24,
+            }}
+            numberOfLines={1}
+          >
+            {measurement.name}
+          </Text>
+          <Text style={{ fontFamily: fonts.semiBold, fontSize: 16 }}>
+            {measurement.total} {measurementUnit[units]}
+          </Text>
+          <Text style={{ fontFamily: fonts.semiBold, fontSize: 16 }}>
+            {measurement.date.toLocaleDateString()}
+          </Text>
+        </View>
+        <View
+          style={{
+            flex: 1,
+            alignItems: "flex-end",
+            justifyContent: "space-between",
+          }}
+        >
+          <Ionicons name="arrow-forward-circle" size={40} />
+          <TouchableOpacity onPress={() => setConfirmationModalVisible(true)}>
+            <Ionicons name="trash" size={40} />
+          </TouchableOpacity>
+        </View>
+      </TouchableOpacity>
+    </>
   );
 }
 
