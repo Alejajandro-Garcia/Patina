@@ -5,6 +5,7 @@ import { FormSwitch } from "@/components/form-switch";
 import { PatinaPage } from "@/components/patina-page";
 import { getAreaSqFt, roundSqFt } from "@/helpers/area-calculations";
 import { formatAreaString } from "@/helpers/format-units";
+import useCalculateAreas from "@/hooks/use-calculate-areas";
 import useMeasurementDetailsStore from "@/stores/use-measurement-details-store";
 import useSettingsStore from "@/stores/use-settings-store";
 import { colors } from "@/theme/colors";
@@ -14,6 +15,7 @@ import {
   AreaFormType,
   AreaType,
 } from "@/types/measurement-info";
+import { IMPERIAL } from "@/types/units";
 import { Ionicons } from "@expo/vector-icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "expo-router";
@@ -61,12 +63,22 @@ const toAreaForm = (area: AreaType): AreaFormType => ({
 export default function MeasurementsForm() {
   const router = useRouter();
   const { units } = useSettingsStore();
-  const { areas, setAreas, setTotal } = useMeasurementDetailsStore(
-    useShallow((state) => ({
-      areas: state.areas,
-      setAreas: state.setAreas,
-      setTotal: state.setTotal,
-    })),
+  const { areas, setAreas, setTotal, setImperial, imperial, total } =
+    useMeasurementDetailsStore(
+      useShallow((state) => ({
+        areas: state.areas,
+        setAreas: state.setAreas,
+        setTotal: state.setTotal,
+        setImperial: state.setImperial,
+        imperial: state.imperial,
+        total: state.total,
+      })),
+    );
+  const { areas: convertedAreas } = useCalculateAreas(
+    areas,
+    total,
+    imperial,
+    units,
   );
   const methods = useForm<AreaFormType>({
     resolver: zodResolver(AreaFormSchema),
@@ -79,7 +91,7 @@ export default function MeasurementsForm() {
     formState: { isDirty },
   } = methods;
   const hasSteps = useWatch({ control, name: "hasSteps" });
-  const [draftAreas, setDraftAreas] = useState<AreaType[]>(areas);
+  const [draftAreas, setDraftAreas] = useState<AreaType[]>(convertedAreas);
   const [deleteIndex, setDeleteIndex] = useState<number>();
   const [editingIndex, setEditingIndex] = useState<number>();
   const [visibleModal, setVisibleModal] = useState(false);
@@ -98,7 +110,7 @@ export default function MeasurementsForm() {
   };
 
   const onGoBack = () => {
-    if (isDirty || JSON.stringify(draftAreas) !== JSON.stringify(areas)) {
+    if (isDirty || JSON.stringify(draftAreas) !== JSON.stringify(convertedAreas)) {
       setUnsavedVisible(true);
     } else {
       router.back();
@@ -116,6 +128,7 @@ export default function MeasurementsForm() {
     setTotal(
       roundSqFt(draftAreas.reduce((sum, a) => sum + getAreaSqFt(a), 0)),
     );
+    setImperial(units === IMPERIAL);
     router.back();
   };
 
