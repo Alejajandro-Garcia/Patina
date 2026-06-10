@@ -1,4 +1,5 @@
 import deleteMeasurement from "@/api/db/delete";
+import useCalculateLandingPageArea from "@/hooks/use-calculate-area";
 import useSettingsStore from "@/stores/use-settings-store";
 import { colors } from "@/theme/colors";
 import { fonts } from "@/theme/fonts";
@@ -14,8 +15,10 @@ import { ConfirmationModal } from "./confirmation-modal";
 function Measurement({ measurement }: { measurement: MeasurementModel }) {
   const router = useRouter();
   const { units } = useSettingsStore();
+  const total = useCalculateLandingPageArea({ measurement, units });
   const [confirmationModalVisible, setConfirmationModalVisible] =
     useState(false);
+
   return (
     <>
       <ConfirmationModal
@@ -49,7 +52,7 @@ function Measurement({ measurement }: { measurement: MeasurementModel }) {
             {measurement.name}
           </Text>
           <Text style={{ fontFamily: fonts.semiBold, fontSize: 16 }}>
-            {measurement.total} {measurementUnit[units]}
+            {total} {measurementUnit[units]}
           </Text>
           <Text style={{ fontFamily: fonts.semiBold, fontSize: 16 }}>
             {measurement.date.toLocaleDateString()}

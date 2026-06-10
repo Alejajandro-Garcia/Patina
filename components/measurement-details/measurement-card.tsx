@@ -1,5 +1,6 @@
 import { getAreaSqFt, roundSqFt } from "@/helpers/area-calculations";
 import { formatAreaString } from "@/helpers/format-units";
+import useCalculateAreas from "@/hooks/use-calculate-areas";
 import useMeasurementDetailsStore from "@/stores/use-measurement-details-store";
 import useSettingsStore from "@/stores/use-settings-store";
 import { colors } from "@/theme/colors";
@@ -22,16 +23,23 @@ import { ConfirmationModal } from "../confirmation-modal";
 
 export const MeasurementCard = () => {
   const router = useRouter();
-  const { measurements, setMeasurements, total, setTotal } =
+  const { measurements, setMeasurements, total, setTotal, imperial } =
     useMeasurementDetailsStore(
       useShallow((state) => ({
         measurements: state.areas,
         setMeasurements: state.setAreas,
         total: state.total,
         setTotal: state.setTotal,
+        imperial: state.imperial,
       })),
     );
   const { units } = useSettingsStore();
+  const { areas: displayAreas, total: displayTotal } = useCalculateAreas(
+    measurements,
+    total,
+    imperial,
+    units,
+  );
   const [deleteIndex, setDeleteIndex] = useState<number | null>(null);
   const [visibleConfirmationModal, setConfirmationModal] =
     useState<boolean>(false);
@@ -81,7 +89,7 @@ export const MeasurementCard = () => {
             showsVerticalScrollIndicator={false}
             style={{ marginTop: 10 }}
           >
-            {measurements.map((area, index) => (
+            {displayAreas.map((area, index) => (
               <View
                 key={index}
                 style={[
@@ -128,7 +136,7 @@ export const MeasurementCard = () => {
           <View style={styles.footer}>
             <Text style={styles.important}>Total: </Text>
             <Text style={[styles.important, { fontSize: 28 }]}>
-              {total} {measurementUnit[units]}
+              {displayTotal} {measurementUnit[units]}
             </Text>
             <ActionButton
               title="Edit"
