@@ -34,7 +34,10 @@ export default function Settings() {
     Keyboard.dismiss();
     setUnits(unitSelected);
     const parsedPercentage = Number(percentageSelected);
-    if (isNaN(parsedPercentage) || parsedPercentage <= 0) {
+    if (
+      (isNaN(parsedPercentage) || parsedPercentage <= 0) &&
+      percentageSelected !== ""
+    ) {
       Toast.show(FailedToast("Invalid percentage or zero"));
       return;
     }
