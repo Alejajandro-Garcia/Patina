@@ -11,7 +11,7 @@ export const Notes = () => {
 
   return (
     <EditableCard
-      title={"Notes (optional)"}
+      title={"Notes"}
       onPress={() => router.push("/measurement/form-pages/notes-form")}
     >
       {!notes ? (
