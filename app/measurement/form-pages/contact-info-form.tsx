@@ -34,10 +34,11 @@ const returnDefaultValues = (
 
 export default function ContactInfoForm() {
   const router = useRouter();
-  const { contactInfo, setContactInfo } = useMeasurementDetailsStore(
+  const { contactInfo, setContactInfo, setDirty } = useMeasurementDetailsStore(
     useShallow((state) => ({
       contactInfo: state.contactInfo,
       setContactInfo: state.setContactInfo,
+      setDirty: state.setDirty,
     })),
   );
   const methods = useForm<ContactInfoType>({
@@ -108,6 +109,7 @@ export default function ContactInfoForm() {
               iconName="add-circle"
               callbackFunction={handleSubmit((data) => {
                 setContactInfo(stripEmpty(data));
+                if (isDirty) setDirty(true);
                 router.back();
               })}
             />

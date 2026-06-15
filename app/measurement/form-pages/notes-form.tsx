@@ -67,10 +67,11 @@ const toNotesForm = (notes: NotesType | null): NotesFormType => {
 
 export default function NotesForm() {
   const router = useRouter();
-  const { notes, setNotes } = useMeasurementDetailsStore(
+  const { notes, setNotes, setDirty } = useMeasurementDetailsStore(
     useShallow((state) => ({
       notes: state.notes,
       setNotes: state.setNotes,
+      setDirty: state.setDirty,
     })),
   );
   const methods = useForm<NotesFormType>({
@@ -85,6 +86,7 @@ export default function NotesForm() {
 
   const onSubmit = (data: NotesFormType) => {
     setNotes(toNotesType(data));
+    if (isDirty) setDirty(true);
     router.back();
   };
 

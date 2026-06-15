@@ -63,13 +63,14 @@ const toAreaForm = (area: AreaType): AreaFormType => ({
 export default function MeasurementsForm() {
   const router = useRouter();
   const { units } = useSettingsStore();
-  const { areas, setAreas, setTotal, setImperial, imperial, total } =
+  const { areas, setAreas, setTotal, setImperial, setDirty, imperial, total } =
     useMeasurementDetailsStore(
       useShallow((state) => ({
         areas: state.areas,
         setAreas: state.setAreas,
         setTotal: state.setTotal,
         setImperial: state.setImperial,
+        setDirty: state.setDirty,
         imperial: state.imperial,
         total: state.total,
       })),
@@ -129,6 +130,9 @@ export default function MeasurementsForm() {
       roundSqFt(draftAreas.reduce((sum, a) => sum + getAreaSqFt(a), 0)),
     );
     setImperial(units === IMPERIAL);
+    if (JSON.stringify(draftAreas) !== JSON.stringify(convertedAreas)) {
+      setDirty(true);
+    }
     router.back();
   };
 
