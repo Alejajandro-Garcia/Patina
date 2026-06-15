@@ -23,7 +23,7 @@ import { ConfirmationModal } from "../confirmation-modal";
 
 export const MeasurementCard = () => {
   const router = useRouter();
-  const { measurements, setMeasurements, total, setTotal, imperial } =
+  const { measurements, setMeasurements, total, setTotal, imperial, setDirty } =
     useMeasurementDetailsStore(
       useShallow((state) => ({
         measurements: state.areas,
@@ -31,6 +31,7 @@ export const MeasurementCard = () => {
         total: state.total,
         setTotal: state.setTotal,
         imperial: state.imperial,
+        setDirty: state.setDirty,
       })),
     );
   const { units } = useSettingsStore();
@@ -58,6 +59,7 @@ export const MeasurementCard = () => {
               measurements.filter((_, index) => index !== deleteIndex),
             );
             setTotal(roundSqFt(total - getAreaSqFt(removed)));
+            setDirty(true);
           }
           setConfirmationModal(false);
         }}
