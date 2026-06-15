@@ -7,11 +7,13 @@ import {
 import { create } from "zustand";
 
 interface MeasurementDetailsState extends MeasurementInfoType {
+  dirty: boolean;
   setContactInfo: (contactInfo: ContactInfoType) => void;
   setAreas: (areas: AreaType[]) => void;
   setNotes: (notes: NotesType) => void;
   setImperial: (imperial: boolean) => void;
   setTotal: (total: number) => void;
+  setDirty: (dirty: boolean) => void;
   hydrate: (measurement: MeasurementInfoType) => void;
   reset: () => void;
 }
@@ -25,6 +27,7 @@ const initialState: Pick<
   | "notes"
   | "imperial"
   | "total"
+  | "dirty"
 > = {
   measurementID: "",
   name: "",
@@ -33,6 +36,7 @@ const initialState: Pick<
   notes: null,
   imperial: true,
   total: 0,
+  dirty: false,
 };
 
 const useMeasurementDetailsStore = create<MeasurementDetailsState>((set) => ({
@@ -42,7 +46,9 @@ const useMeasurementDetailsStore = create<MeasurementDetailsState>((set) => ({
   setNotes: (notes: NotesType) => set({ notes }),
   setImperial: (imperial: boolean) => set({ imperial }),
   setTotal: (total: number) => set({ total }),
-  hydrate: (measurement: MeasurementInfoType) => set({ ...measurement }),
+  setDirty: (dirty: boolean) => set({ dirty }),
+  hydrate: (measurement: MeasurementInfoType) =>
+    set({ ...measurement, dirty: false }),
   reset: () => set({ ...initialState }),
 }));
 
