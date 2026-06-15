@@ -31,7 +31,7 @@ export const MeasurementDetails = ({
     useState(false);
 
   const { units } = useSettingsStore();
-  const { areas, contactInfo, notes, id, name, total, imperial, reset } =
+  const { areas, contactInfo, notes, id, name, total, imperial, dirty, reset } =
     useMeasurementDetailsStore(
       useShallow((state) => ({
         areas: state.areas,
@@ -41,6 +41,7 @@ export const MeasurementDetails = ({
         name: state.name,
         total: state.total,
         imperial: state.imperial,
+        dirty: state.dirty,
         reset: state.reset,
       })),
     );
@@ -66,6 +67,16 @@ export const MeasurementDetails = ({
     Toast.show(SuccessToast);
     router.back();
     reset();
+    return;
+  };
+
+  const onCancel = () => {
+    if (dirty) {
+      setConfirmationModalVisible(true);
+      return;
+    }
+    reset();
+    router.back();
     return;
   };
 
@@ -102,7 +113,7 @@ export const MeasurementDetails = ({
         <ActionButton
           iconName="close-circle"
           title="Cancel"
-          callbackFunction={() => setConfirmationModalVisible(true)}
+          callbackFunction={onCancel}
         />
         <ActionButton
           iconName="save"
