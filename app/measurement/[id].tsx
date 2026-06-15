@@ -9,12 +9,18 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, View } from "react-native";
 import { Toast } from "toastify-react-native";
+import { useShallow } from "zustand/react/shallow";
 
 export default function EditMeasurement() {
   const router = useRouter();
   const { id } = useLocalSearchParams<{ id: string }>();
-  const reset = useMeasurementDetailsStore((state) => state.reset);
-  const hydrate = useMeasurementDetailsStore((state) => state.hydrate);
+  const { reset, hydrate, dirty } = useMeasurementDetailsStore(
+    useShallow((state) => ({
+      reset: state.reset,
+      hydrate: state.hydrate,
+      dirty: state.dirty,
+    })),
+  );
   const [loading, setLoading] = useState(true);
   const [unsavedVisible, setUnsavedVisible] = useState(false);
   const [measurement, setMeasurement] = useState<MeasurementInfoType | null>(
@@ -37,6 +43,16 @@ export default function EditMeasurement() {
     };
     queryMeasurement();
   }, [id]);
+
+  const onGoBack = () => {
+    if (dirty) {
+      setUnsavedVisible(true);
+      return;
+    }
+    reset();
+    router.back();
+    return;
+  };
 
   if (loading && !measurement) {
     return (
@@ -63,7 +79,7 @@ export default function EditMeasurement() {
           router.back();
         }}
       />
-      <PatinaPage goBackCallBack={() => setUnsavedVisible(true)}>
+      <PatinaPage goBackCallBack={onGoBack}>
         <MeasurementDetails measurement={measurement} />
       </PatinaPage>
     </>

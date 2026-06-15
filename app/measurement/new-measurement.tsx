@@ -4,11 +4,24 @@ import { PatinaPage } from "@/components/patina-page";
 import useMeasurementDetailsStore from "@/stores/use-measurement-details-store";
 import { useRouter } from "expo-router";
 import { useState } from "react";
+import { useShallow } from "zustand/react/shallow";
 
 export default function NewMeasurement() {
   const router = useRouter();
-  const reset = useMeasurementDetailsStore((state) => state.reset);
+  const { reset, dirty } = useMeasurementDetailsStore(
+    useShallow((state) => ({ reset: state.reset, dirty: state.dirty })),
+  );
   const [unsavedVisible, setUnsavedVisible] = useState(false);
+
+  const onGoBack = () => {
+    if (dirty) {
+      setUnsavedVisible(true);
+      return;
+    }
+    reset();
+    router.back();
+    return;
+  };
 
   return (
     <>
@@ -23,7 +36,7 @@ export default function NewMeasurement() {
           router.back();
         }}
       />
-      <PatinaPage goBackCallBack={() => setUnsavedVisible(true)}>
+      <PatinaPage goBackCallBack={onGoBack}>
         <MeasurementDetails measurement={null} />
       </PatinaPage>
     </>
