@@ -1,5 +1,12 @@
 # Flooring/Construction Measuring Application!
 
+## Preview
+
+<img width="354" height="752" alt="Screenshot 2026-06-03 at 11 36 02 AM" src="https://github.com/user-attachments/assets/484bcf58-5869-4699-9b72-dc627b9858fb" />
+<img width="353" height="757" alt="Screenshot 2026-06-03 at 11 34 35 AM" src="https://github.com/user-attachments/assets/12134024-d925-4716-a2d8-c3f33ce0bc99" />
+<img width="357" height="760" alt="Screenshot 2026-06-03 at 11 34 22 AM" src="https://github.com/user-attachments/assets/a49fab0b-877f-443c-b505-750010c5b643" />
+
+
 ## Background
 
 This is a side project in between jobs I started working on to help with my pops measure out areas during estimates. Usually, he would write all areas, contact info, and additional notes relating to the services and product info needed in a grid-like sheet of paper! In this case, I usually had to calculate the total square footage along with then putting this in the notes app. The drawback being, I would have double and sometimes triple check my calculations, since we price products per squarefoot and in amount of cartons, every squarefoot counts as to not rip off the customers. I thought it would be nice to have an app that will have all measurements made, calculate based on the unit of measurement (freedom units 🦅), save contact info, and save notes. This is an offline-first utility, all online aspects will only be for backing up data and syncing with other employees, more info on this in the features section.
