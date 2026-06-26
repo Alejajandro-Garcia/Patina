@@ -14,8 +14,8 @@ import { ConfirmationModal } from "./confirmation-modal";
 
 function Measurement({ measurement }: { measurement: MeasurementModel }) {
   const router = useRouter();
-  const { units } = useSettingsStore();
-  const total = useCalculateLandingPageArea({ measurement, units });
+  const { units, percentage } = useSettingsStore();
+  const total = useCalculateLandingPageArea({ measurement, units, percentage });
   const [confirmationModalVisible, setConfirmationModalVisible] =
     useState(false);
 
