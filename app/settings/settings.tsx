@@ -27,7 +27,7 @@ export default function Settings() {
   );
   const [unitSelected, setUnitSelected] = useState(units || "");
   const [percentageSelected, setPercentageSelected] = useState(
-    String(percentage) === "0" ? "" : String(percentage),
+    String(percentage) === "0" ? "" : String(percentage * 100),
   );
 
   const onSaveHandler = () => {
@@ -42,7 +42,7 @@ export default function Settings() {
       return;
     }
     Toast.show(SuccessToast);
-    setPercentage(parsedPercentage);
+    if (parsedPercentage !== percentage) setPercentage(parsedPercentage / 100);
   };
 
   return (
