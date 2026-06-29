@@ -14,23 +14,24 @@ const useCalculateAreas = (
   total: number,
   imperial: boolean,
   units: Units,
+  percentage: number,
 ) => {
   return useMemo(() => {
     const currentlyImperial = units === IMPERIAL;
     if (imperial === currentlyImperial) return { areas, total };
 
-    const convertLength = currentlyImperial ? mToFt : ftToM;
+    const convertDimension = currentlyImperial ? mToFt : ftToM;
     const convertArea = currentlyImperial ? sqMToSqFt : sqFtToSqM;
 
     return {
       areas: areas.map((area) => ({
         ...area,
-        length: roundSqFt(convertLength(area.length)),
-        width: roundSqFt(convertLength(area.width)),
+        length: roundSqFt(convertDimension(area.length)),
+        width: roundSqFt(convertDimension(area.width)),
       })),
-      total: roundSqFt(convertArea(total)),
+      total: roundSqFt(convertArea(total) + convertArea(total) * percentage),
     };
-  }, [areas, total, imperial, units]);
+  }, [areas, total, imperial, units, percentage]);
 };
 
 export default useCalculateAreas;

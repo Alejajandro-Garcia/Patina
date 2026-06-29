@@ -34,12 +34,13 @@ export const MeasurementCard = () => {
         setDirty: state.setDirty,
       })),
     );
-  const { units } = useSettingsStore();
+  const { units, percentage } = useSettingsStore();
   const { areas: displayAreas, total: displayTotal } = useCalculateAreas(
     measurements,
     total,
     imperial,
     units,
+    percentage,
   );
   const [deleteIndex, setDeleteIndex] = useState<number | null>(null);
   const [visibleConfirmationModal, setConfirmationModal] =
