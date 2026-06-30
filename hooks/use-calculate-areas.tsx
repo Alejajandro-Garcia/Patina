@@ -18,7 +18,8 @@ const useCalculateAreas = (
 ) => {
   return useMemo(() => {
     const currentlyImperial = units === IMPERIAL;
-    if (imperial === currentlyImperial) return { areas, total };
+    if (imperial === currentlyImperial)
+      return { areas, total: total + total * percentage };
 
     const convertDimension = currentlyImperial ? mToFt : ftToM;
     const convertArea = currentlyImperial ? sqMToSqFt : sqFtToSqM;
