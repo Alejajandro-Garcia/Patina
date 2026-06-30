@@ -9,8 +9,11 @@ import MeasurementModel from "@/watermelonDB/model/measurement";
 import { Q } from "@nozbe/watermelondb";
 import { withObservables } from "@nozbe/watermelondb/react";
 import { useRouter } from "expo-router";
+import { onAuthStateChanged } from "firebase/auth";
 import Fuse from "fuse.js";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { auth } from "../firebaseConfig";
+
 import {
   FlatList,
   Image,
@@ -30,6 +33,18 @@ const fuseOptions = {
 function Index({ measurements }: { measurements: MeasurementModel[] }) {
   const navigation = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
+  const [checkingUser, setCheckingUser] = useState(true);
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log("logged in");
+        setCheckingUser(false);
+      }
+      console.log("signed out");
+      setCheckingUser(false);
+    });
+  }, []);
 
   const fuse = useMemo(
     () => new Fuse(measurements, fuseOptions),
@@ -40,6 +55,14 @@ function Index({ measurements }: { measurements: MeasurementModel[] }) {
     if (!searchQuery) return measurements;
     return fuse.search(searchQuery).map((result) => result.item);
   }, [searchQuery, fuse, measurements]);
+
+  if (checkingUser) {
+    return (
+      <View>
+        <Text>hello</Text>
+      </View>
+    );
+  }
 
   return (
     <PatinaPage>
