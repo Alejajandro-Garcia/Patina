@@ -16,6 +16,9 @@ const useCalculateAreas = (
   units: Units,
   percentage: number,
 ) => {
+  /* TODO: this might need to change as there are miscalculations, even though it's .01 or .02 it can still be 
+  dangerous. For example, 10 * 10.5 in sqft then convert it to metric, afterwards it will be displayed as 9.75
+  which should be 9.76. This is because the round(sum((k * l * w * k))) != sum(values) * k */
   return useMemo(() => {
     const currentlyImperial = units === IMPERIAL;
     if (imperial === currentlyImperial)

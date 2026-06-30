@@ -62,7 +62,7 @@ const toAreaForm = (area: AreaType): AreaFormType => ({
 
 export default function MeasurementsForm() {
   const router = useRouter();
-  const { units } = useSettingsStore();
+  const { units, percentage } = useSettingsStore();
   const { areas, setAreas, setTotal, setImperial, setDirty, imperial, total } =
     useMeasurementDetailsStore(
       useShallow((state) => ({
@@ -80,6 +80,7 @@ export default function MeasurementsForm() {
     total,
     imperial,
     units,
+    percentage,
   );
   const methods = useForm<AreaFormType>({
     resolver: zodResolver(AreaFormSchema),
@@ -111,7 +112,10 @@ export default function MeasurementsForm() {
   };
 
   const onGoBack = () => {
-    if (isDirty || JSON.stringify(draftAreas) !== JSON.stringify(convertedAreas)) {
+    if (
+      isDirty ||
+      JSON.stringify(draftAreas) !== JSON.stringify(convertedAreas)
+    ) {
       setUnsavedVisible(true);
     } else {
       router.back();
@@ -126,9 +130,7 @@ export default function MeasurementsForm() {
 
   const onDone = () => {
     setAreas(draftAreas);
-    setTotal(
-      roundSqFt(draftAreas.reduce((sum, a) => sum + getAreaSqFt(a), 0)),
-    );
+    setTotal(roundSqFt(draftAreas.reduce((sum, a) => sum + getAreaSqFt(a), 0)));
     setImperial(units === IMPERIAL);
     if (JSON.stringify(draftAreas) !== JSON.stringify(convertedAreas)) {
       setDirty(true);
