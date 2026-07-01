@@ -38,6 +38,7 @@ export const LabeledInput = ({
         value={value}
         onChangeText={setValue}
         maxLength={!textArea ? 50 : 150}
+        autoCapitalize="none"
       />
     </View>
   );
