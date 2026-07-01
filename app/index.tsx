@@ -38,10 +38,11 @@ function Index({ measurements }: { measurements: MeasurementModel[] }) {
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        console.log("logged in");
+        console.debug("\x1b[1m\x1b[32mlogged in\x1b[0m");
         setCheckingUser(false);
+        return;
       }
-      console.log("signed out");
+      console.debug("\x1b[1m\x1b[32msigned out\x1b[0m");
       setCheckingUser(false);
     });
   }, []);
