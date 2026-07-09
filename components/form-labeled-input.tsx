@@ -8,6 +8,7 @@ interface FormLabeledInputProps {
   number?: boolean;
   textArea?: boolean;
   required?: boolean;
+  secureTextEntry?: boolean;
 }
 
 export const FormLabeledInput = ({
