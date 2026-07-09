@@ -55,6 +55,7 @@ export default function SignIn() {
           placeholder="Enter your password"
           value={password}
           setValue={setPassword}
+          secureTextEntry
         />
         {signUp && (
           <LabeledInput
@@ -62,6 +63,7 @@ export default function SignIn() {
             placeholder="Re-enter your password"
             value={secondPass}
             setValue={setSecondPassword}
+            secureTextEntry
           />
         )}
         <ActionButton

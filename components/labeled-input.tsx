@@ -10,6 +10,7 @@ interface LabeledInputProps {
   value?: string;
   setValue?: (value: string) => void;
   error?: boolean;
+  secureTextEntry?: boolean;
 }
 
 export const LabeledInput = ({
@@ -20,6 +21,7 @@ export const LabeledInput = ({
   value,
   setValue,
   error,
+  secureTextEntry,
 }: LabeledInputProps) => {
   return (
     <View>
@@ -39,6 +41,7 @@ export const LabeledInput = ({
         onChangeText={setValue}
         maxLength={!textArea ? 50 : 150}
         autoCapitalize="none"
+        secureTextEntry={!secureTextEntry ? false : true}
       />
     </View>
   );
