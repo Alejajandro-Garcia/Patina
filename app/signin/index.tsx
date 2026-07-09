@@ -1,5 +1,5 @@
 import handleSignIn from "@/api/firebase/signin";
-import handleSignUp from "@/api/firebase/singup";
+import handleSignUp from "@/api/firebase/signup";
 import { ActionButton } from "@/components/action-button";
 import { LabeledInput } from "@/components/labeled-input";
 import { auth } from "@/firebaseConfig";

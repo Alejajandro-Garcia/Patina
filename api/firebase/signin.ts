@@ -1,3 +1,4 @@
+import { router } from "expo-router";
 import { Auth, signInWithEmailAndPassword } from "firebase/auth";
 
 const handleSignIn = (auth: Auth, username: string, password: string) => {
@@ -6,6 +7,8 @@ const handleSignIn = (auth: Auth, username: string, password: string) => {
     .then((userCredential) => {
       const user = userCredential.user;
       console.debug(user);
+      router.dismissAll();
+      router.replace("/");
     })
     .catch((error) => {
       const errorCode = error.code;
