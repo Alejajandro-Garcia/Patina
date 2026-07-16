@@ -1,9 +1,12 @@
+import changeUser from "@/api/firebase/change-user";
 import { ActionButton } from "@/components/action-button";
 import { DropdownMenu } from "@/components/dropdown-menu";
 import { LabeledInput } from "@/components/labeled-input";
 import { PatinaPage } from "@/components/patina-page";
 import FailedToast from "@/components/toast-configs/failed-toast";
 import SuccessToast from "@/components/toast-configs/success-toast";
+import { auth } from "@/firebaseConfig";
+import useAuthStore from "@/stores/use-auth-store";
 import useSettingsStore from "@/stores/use-settings-store";
 import { colors } from "@/theme/colors";
 import { fonts } from "@/theme/fonts";
@@ -17,6 +20,7 @@ import { useShallow } from "zustand/react/shallow";
 export default function Settings() {
   const menuItems = [IMPERIAL, METRIC] as const;
   const router = useRouter();
+  const user = useAuthStore((state) => state.user);
   const { units, setUnits, percentage, setPercentage } = useSettingsStore(
     useShallow((state) => ({
       units: state.units,
@@ -94,11 +98,20 @@ export default function Settings() {
             }}
           >
             <Text style={styles.label}>Sync with cloud</Text>
-            <ActionButton
-              title="Sign In"
-              iconName="log-in"
-              callbackFunction={() => router.push("/signin")}
-            />
+            {user ? (
+              <ActionButton
+                title="Change User"
+                iconName="log-out"
+                width={150}
+                callbackFunction={() => changeUser(auth)}
+              />
+            ) : (
+              <ActionButton
+                title="Sign In"
+                iconName="log-in"
+                callbackFunction={() => router.push("/signin")}
+              />
+            )}
           </View>
         </View>
       </View>
